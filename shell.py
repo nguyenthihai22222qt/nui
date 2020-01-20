@@ -1,6 +1,6 @@
 from typing import Tuple, Iterator
 
-from console.return_code import ReturnCode
+from return_code import ReturnCode
 
 
 class Api:
