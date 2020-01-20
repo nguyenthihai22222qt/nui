@@ -12,7 +12,7 @@ class ReturnCode:
 		self.code = code
 		self.answer = answer
 
-	class i_com:
+	class I_com:
 		def __init__(self, com: dict, name: str):
 			self.com = com
 			self.name = name
