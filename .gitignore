@@ -6,5 +6,6 @@ out/
 nudes/
 server.bat
 main.exe
+test*
 *.iml
 *.dll
