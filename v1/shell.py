@@ -33,7 +33,7 @@ class Shell:
 
 			com: dict = self.get_com(c)
 			ret = com['method'](self, args)
-			ret.com = ReturnCode.I_com(com, c)
+			ret.com = ReturnCode.ICom(com, c)
 			yield ret
 
 	def _com_parse(self, c: str) -> list:
