@@ -1,16 +1,17 @@
-from typing import Iterator, List
+from typing import Iterator
 
+from v2.api import Api
 from v2.com import Com
 from v2.retcom import RetCom
 
 
 class Shell:
-	def __init__(self, commands: List[Com]):
-		self.commands: List[Com] = commands
+	def __init__(self, api: Api):
+		self.api: Api = api
 		self.unknown = Com([], lambda rc: rc.unknown(), '')
 
 	def _get_com(self, c: str) -> Com:  # TODO Wrapper around Coms
-		for com in self.commands:
+		for com in self.api.get_commands():
 			if c in com.name:
 				return com
 		return self.unknown
@@ -31,7 +32,7 @@ class Shell:
 		for co in c:
 			if co == ' ' and not in_string:
 				if tmp:
-					o.append(tmp)
+					o.append(tmp)  # TODO Parse though api
 				tmp = ''
 			elif co not in ["'", '"']:
 				tmp += co
