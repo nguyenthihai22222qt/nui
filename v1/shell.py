@@ -1,6 +1,10 @@
+import warnings
 from typing import Tuple, Iterator
 
-from .return_code import ReturnCode
+# noinspection PyDeprecation
+from .return_code import ReturnCode  # Silence warning about deprecated code in deprecated code XD
+
+warnings.warn("ncui v1 is deprecated use newer version instead", DeprecationWarning)
 
 
 class Api:
