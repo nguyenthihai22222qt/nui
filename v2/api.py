@@ -1,7 +1,7 @@
 from typing import List, Union
 
-from v2.com import Com
-from v2.shell import Shell
+from .com import Com
+from .shell import Shell
 
 
 # noinspection PyMethodMayBeStatic

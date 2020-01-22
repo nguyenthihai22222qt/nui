@@ -1,8 +1,8 @@
 from typing import Iterator
 
-from v2.api import Api
-from v2.com import Com
-from v2.retcom import RetCom
+from .api import Api
+from .com import Com
+from .retcom import RetCom
 
 
 class Shell:

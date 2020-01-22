@@ -1,6 +1,6 @@
 from typing import List
 
-from v2.consts import RetCode
+from .consts import RetCode
 
 
 class RetCom:
