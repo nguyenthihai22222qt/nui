@@ -1,13 +1,12 @@
 from typing import Iterator
 
-from .api import Api
 from .com import Com
 from .retcom import RetCom
 
 
 class Shell:
-	def __init__(self, api: Api):
-		self.api: Api = api
+	def __init__(self, api):
+		self.api = api
 		self.unknown = Com([], lambda rc: rc.unknown(), '')
 
 	def _get_com(self, c: str) -> Com:  # TODO Wrapper around Commands
