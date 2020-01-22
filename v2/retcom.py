@@ -11,6 +11,17 @@ class RetCom:
 		self.code: RetCode = RetCode.NONE
 		self.answer: str = ''
 
-	def unknown(self):
+	def answer(self, code: RetCode = RetCode.OK, answer: str = '') -> 'RetCom':
+		self.answer = answer
+		self.code = code
+		return self
+
+	def unknown(self, answer: str = '') -> 'RetCom':
+		self.answer = answer
 		self.code = RetCode.UNKNOWN
+		return self
+
+	def error(self, answer: str = '') -> 'RetCom':
+		self.answer = answer
+		self.code = RetCode.ERROR
 		return self
