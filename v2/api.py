@@ -32,3 +32,4 @@ class Api:
 				print(f"[Unknown command] {rc.com.name}")
 			elif rc.answer:
 				print(rc.answer)
+		return True
