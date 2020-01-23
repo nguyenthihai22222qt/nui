@@ -18,7 +18,7 @@ class Shell:
 	def line_com_parser(self, c: str) -> Iterator[RetCom]:
 		for co in c.split('|'):
 			co = self._com_parse(co)
-			c = co[0]
+			c = co[0]  # TODO Pass this to RetCom
 			args = co[1:]
 			com = self._get_com(c)
 			yield com.method(RetCom(self, com, args))

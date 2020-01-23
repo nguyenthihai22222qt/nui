@@ -12,7 +12,7 @@ class RetCom:
 		self.code: RetCode = RetCode.NONE
 		self.answer: str = ''
 
-	def answer(self, code: RetCode = RetCode.OK, answer: str = '') -> 'RetCom':
+	def quick(self, code: RetCode = RetCode.OK, answer: str = '') -> 'RetCom':
 		self.answer = answer
 		self.code = code
 		return self
