@@ -5,6 +5,7 @@ class RetCode(Enum):
 	NONE = auto()
 	EXIT = auto()
 	OK = auto()
+	HELP = auto()
 	UNKNOWN = auto()
 	ERROR = auto()
 	ARGS_ERROR = auto()

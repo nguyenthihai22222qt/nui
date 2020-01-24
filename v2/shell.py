@@ -19,7 +19,7 @@ class Shell:
 		for co in c.split('|'):
 			co = self._com_parse(co)
 			com = self._get_com(co[0])
-			yield com.method(RetCom(self, com, co))
+			yield com.run(RetCom(self, com, co))
 
 	def _com_parse(self, c: str) -> list:
 		o = []
