@@ -21,15 +21,14 @@ class Shell:
 			com = self._get_com(co[0])
 			yield com.method(RetCom(self, com, co))
 
-	@staticmethod
-	def _com_parse(c: str) -> list:
+	def _com_parse(self, c: str) -> list:
 		o = []
 		tmp = ''
 		in_string = False
 		for co in c:
 			if co == ' ' and not in_string:
 				if tmp:
-					o.append(tmp)  # TODO Parse though api
+					o.append(self.api.parse_args(tmp))
 				tmp = ''
 			elif co not in ["'", '"']:
 				tmp += co
@@ -38,7 +37,7 @@ class Shell:
 					tmp = ''
 				in_string = not in_string
 		if tmp:
-			o.append(tmp)
+			o.append(self.api.parse_args(tmp))
 		elif not o:
 			o.append('')
 		return o

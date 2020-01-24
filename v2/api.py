@@ -15,6 +15,10 @@ class Api:
 		# Overwrite me
 		return []
 
+	def parse_args(self, arg: str) -> str:
+		# Overwrite me
+		return arg
+
 	def quick_run(self, com: str):
 		if not self.shell:
 			self.shell = Shell(self)
