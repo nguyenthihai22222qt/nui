@@ -38,6 +38,6 @@ class Api:
 				print(rc.answer)
 		return True
 
-	def quick_run_loop(self, def_path):  # TODO Path
+	def quick_run_loop(self, def_path: str = '>'):  # TODO Path
 		while self.quick_run(input(def_path)):
 			pass  # NOSONAR
