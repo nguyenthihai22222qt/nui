@@ -19,7 +19,7 @@ class Api:
 		# Overwrite me
 		return arg
 
-	def quick_run(self, com: str):  # TODO Loop
+	def quick_run(self, com: str):
 		if not self.shell:
 			self.shell = Shell(self)
 		rc: RetCom
@@ -37,3 +37,7 @@ class Api:
 			elif rc.answer:
 				print(rc.answer)
 		return True
+
+	def quick_run_loop(self, def_path):  # TODO Path
+		while self.quick_run(input(def_path)):
+			pass  # NOSONAR
