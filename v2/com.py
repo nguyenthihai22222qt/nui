@@ -10,7 +10,7 @@ class Com:
 		self.man = man  # TODO Better help
 
 	def run(self, rt):
-		if rt.args[1] in ['help']:
-			return rt.quick(RetCode.HELP, self.man)
+		if len(rt.args) > 1 and rt.args[1] in ['help']:
+			return rt.quick(self.man, RetCode.HELP)
 		else:
 			return self.method(rt)

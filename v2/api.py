@@ -19,7 +19,7 @@ class Api:
 		# Overwrite me
 		return arg
 
-	def quick_run(self, com: str):
+	def quick_run(self, com: str):  # TODO Loop
 		if not self.shell:
 			self.shell = Shell(self)
 		rc: RetCom
