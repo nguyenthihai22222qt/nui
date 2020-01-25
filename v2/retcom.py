@@ -17,12 +17,16 @@ class RetCom:
 		self.code = code
 		return self
 
-	def unknown(self, answer: str = '') -> 'RetCom':
-		self.answer = answer
+	def unknown(self) -> 'RetCom':
+		self.answer = self.args[0] if len(self.args) else ''
 		self.code = RetCode.UNKNOWN
 		return self
 
 	def error(self, answer: str = '') -> 'RetCom':
 		self.answer = answer
 		self.code = RetCode.ERROR
+		return self
+
+	def empty(self):
+		self.code = RetCode.EMPTY
 		return self

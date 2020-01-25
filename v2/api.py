@@ -26,6 +26,8 @@ class Api:
 		for rc in self.shell.line_com_parser(com):
 			if rc.code == RetCode.EXIT:
 				return False
+			elif rc.code == RetCode.EMPTY:
+				continue
 			elif rc.code == RetCode.ERROR:
 				print(f"[Error] {rc.com.name}{(': ' + rc.answer) if rc.answer else ''}")
 			elif rc.code == RetCode.PATH_ERROR:

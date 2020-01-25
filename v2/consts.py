@@ -3,6 +3,7 @@ from enum import Enum, auto
 
 class RetCode(Enum):
 	NONE = auto()
+	EMPTY = auto()
 	EXIT = auto()
 	OK = auto()
 	HELP = auto()

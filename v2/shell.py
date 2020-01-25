@@ -7,13 +7,12 @@ from .retcom import RetCom
 class Shell:
 	def __init__(self, api):
 		self.api = api
-		self.unknown = Com([], lambda rc: rc.unknown(), '')
 
 	def _get_com(self, c: str) -> Com:  # TODO Wrapper around Commands
 		for com in self.api.get_commands():
 			if c in com.name:
 				return com
-		return self.unknown
+		return Com('', lambda rc: rc.empty()) if c == '' else Com([], lambda rc: rc.unknown(), '')
 
 	def line_com_parser(self, c: str) -> Iterator[RetCom]:
 		for co in c.split('|'):

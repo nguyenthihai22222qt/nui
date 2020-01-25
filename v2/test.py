@@ -7,6 +7,15 @@ from v2.consts import RetCode
 from v2.shell import Shell
 
 
+# Com
+class TestCom(TestCase):
+	def test_init(self):
+		self.assertListEqual(Com('q', None).name, ['q'])
+		self.assertListEqual(Com(['wasd'], None).name, ['wasd'])
+		self.assertListEqual(Com(['wasd', 'q', 'ewq'], None).name, ['wasd', 'q', 'ewq'])
+		self.assertListEqual(Com('wasd q ewq w', None).name, ['wasd', 'q', 'ewq', 'w'])
+
+
 class Wrap(Api):
 	def get_commands(self) -> List[Com]:
 		return [
@@ -18,22 +27,8 @@ class Wrap(Api):
 		return super().parse_args(arg)
 
 
-class Test(TestCase):
-	def test_init_Com(self):
-		self.assertListEqual(Com('q', None).name, ['q'])
-		self.assertListEqual(Com(['wasd'], None).name, ['wasd'])
-		self.assertListEqual(Com(['wasd', 'q', 'ewq'], None).name, ['wasd', 'q', 'ewq'])
-		self.assertListEqual(Com('wasd q ewq w', None).name, ['wasd', 'q', 'ewq', 'w'])
-
-	def test_api_ok(self):
-		self._com('ok', RetCode.OK, 'okay')
-
-	def test_api_er(self):
-		self._com('er', RetCode.ERROR, 'Oops')
-
-	def test_api_ok_help(self):
-		self._com('ok help', RetCode.HELP, 'Doc')
-
+# Api/Shell
+class TestApiShell(TestCase):
 	def _com(self, com: str, code: RetCode, answer: str):
 		w = Wrap()
 		s = Shell(w)
@@ -44,3 +39,21 @@ class Test(TestCase):
 		self.assertEqual(len(o.args), len(com.split(' ')))
 		self.assertIs(o.code, code)
 		self.assertEqual(o.answer, answer)
+
+	def test_api_ok(self):
+		self._com('ok', RetCode.OK, 'okay')
+
+	def test_api_er(self):
+		self._com('er', RetCode.ERROR, 'Oops')
+
+	def test_api_unknown(self):
+		self._com('unknown', RetCode.UNKNOWN, 'unknown')
+
+	def test_api_unknown_arg(self):
+		self._com('unknown arg', RetCode.UNKNOWN, 'unknown')
+
+	def test_api_ok_help(self):
+		self._com('ok help', RetCode.HELP, 'Doc')
+
+	def test_api_empty(self):
+		self._com('', RetCode.EMPTY, '')
