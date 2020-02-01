@@ -19,8 +19,8 @@ class Shell:
 		for co in c.split('|'):
 			co = self._com_parse(co)
 			com = self._get_com(co[0])
-			o = com.run(RetCom(self, com, co, self.path))
-			self.path = o
+			o: RetCom = com.run(RetCom(self, com, co, self.path))
+			self.path = o.path
 			yield o
 
 	def _com_parse(self, c: str) -> list:
