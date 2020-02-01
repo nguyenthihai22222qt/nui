@@ -10,6 +10,7 @@ from .shell import Shell
 class Api:
 	def __init__(self):
 		self.shell: Union[Shell, None] = None
+		self.shell = Shell(self)
 
 	def get_commands(self) -> List[Com]:
 		# Overwrite me
@@ -20,8 +21,6 @@ class Api:
 		return arg
 
 	def quick_run(self, com: str):
-		if not self.shell:
-			self.shell = Shell(self)
 		rc: RetCom
 		for rc in self.shell.line_com_parser(com):
 			if rc.code == RetCode.EXIT:
@@ -40,6 +39,6 @@ class Api:
 				print(rc.answer)
 		return True
 
-	def quick_run_loop(self, def_path: str = '>'):  # TODO Path
-		while self.quick_run(input(def_path)):
+	def quick_run_loop(self, add_to_path: str = '>'):
+		while self.quick_run(input(f'{self.shell.path}{add_to_path}')):
 			pass  # NOSONAR

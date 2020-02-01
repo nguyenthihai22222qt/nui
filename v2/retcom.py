@@ -5,10 +5,11 @@ from .consts import RetCode
 
 
 class RetCom:
-	def __init__(self, shell, com, args: List[str]):
+	def __init__(self, shell, com, args: List[str], path: str):
 		self.shell = shell
 		self.com: Com = com
 		self.args: List[str] = args
+		self.path: str = path
 		self.code: RetCode = RetCode.NONE
 		self.answer: str = ''
 
