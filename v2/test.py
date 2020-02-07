@@ -1,10 +1,10 @@
 from typing import List
 from unittest import TestCase
 
-from v2.api import Api
-from v2.com import Com
-from v2.consts import RetCode
-from v2.shell import Shell
+from .api import Api
+from .com import Com
+from .consts import RetCode
+from .shell import Shell
 
 
 # Com
