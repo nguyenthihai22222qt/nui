@@ -11,3 +11,4 @@ class RetCode(Enum):
 	ERROR = auto()
 	ARGS_ERROR = auto()
 	PATH_ERROR = auto()
+	DENIED = auto()
