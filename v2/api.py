@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 
 from .com import Com
 from .consts import RetCode
@@ -9,8 +9,8 @@ from .shell import Shell
 # noinspection PyMethodMayBeStatic
 class Api:
 	def __init__(self):
-		self.shell: Union[Shell, None] = None
-		self.shell = Shell(self)
+		self.shell: Shell = Shell(self)
+		self.rc: RetCom = RetCom(None, None, [], '')
 
 	def get_commands(self) -> List[Com]:
 		# Overwrite me

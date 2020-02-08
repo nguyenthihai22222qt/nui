@@ -9,8 +9,10 @@ class Com:
 		self.method: callable = method
 		self.man = man  # TODO Better help
 
-	def run(self, rt):
-		if len(rt.args) > 1 and rt.args[1] in ['help']:
-			return rt.quick(self.man, RetCode.HELP)
+	def run(self, api, ret_com):
+		api.rc = ret_com
+		if len(api.rc.args) > 1 and api.rc.args[1] in ['help']:
+			return api.rc.quick(self.man, RetCode.HELP)
 		else:
-			return self.method(rt)
+			o = self.method()
+			return o if o else api.rc

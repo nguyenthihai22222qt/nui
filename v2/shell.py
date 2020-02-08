@@ -13,13 +13,13 @@ class Shell:
 		for com in self.api.get_commands():
 			if c in com.name:
 				return com
-		return Com('', lambda rc: rc.empty()) if c == '' else Com([], lambda rc: rc.unknown(), '')
+		return Com('', lambda: self.api.rc.empty()) if c == '' else Com([], lambda: self.api.rc.unknown(), '')
 
 	def line_com_parser(self, c: str) -> Iterator[RetCom]:
 		for co in c.split('|'):
 			co = self._com_parse(co)
 			com = self._get_com(co[0])
-			o: RetCom = com.run(RetCom(self, com, co, self.path))
+			o: RetCom = com.run(self.api, RetCom(self, com, co, self.path))
 			self.path = o.path
 			yield o
 
