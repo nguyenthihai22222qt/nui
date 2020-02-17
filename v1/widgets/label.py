@@ -1,9 +1,10 @@
-import tkinter
+from tkinter import Label as tkLabel
 
+from v1._widget import _Widget
 from v1.style import Style
 
 
-class Label(tkinter.Label):
+class Label(_Widget, tkLabel):
 	def __init__(self, master, style: Style, **kw):
-		super().__init__(master, **kw, fg=style.fg, bg=style.bg)
-		self.style = style
+		tkLabel.__init__(self, master, **style.quick(bg=True, fg=True), **kw)
+		_Widget.__init__(self, style)
