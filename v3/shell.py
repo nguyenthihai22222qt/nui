@@ -20,7 +20,7 @@ class Shell:
 			co = self._com_parse(co)
 			com = self._get_com(co[0])
 			o: RetCom = com.run(self.api, RetCom(self, com, co, self.path))
-			self.path = o.path
+			self.path = self.api.path()
 			yield o
 
 	def _com_parse(self, c: str) -> list:

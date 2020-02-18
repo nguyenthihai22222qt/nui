@@ -12,27 +12,35 @@ class Api:
 		self.commands = []
 		self.shell: Shell = Shell(self)
 		self.rc: RetCom = RetCom(None, None, [], '')
+		self.set_commands()
+
+	def path(self):
+		"""
+		Overwrite me
+		"""
+		return ""
 
 	def parse_args(self, arg: str) -> str:
-		# Overwrite me
+		"""
+		Overwrite me
+		"""
 		return arg
 
 	# fun = com()(fun) NOSONAR
-	@staticmethod
-	def com(com: Com, api: 'Api' = None):
+
+	def set_commands(self):
+		"""
+		Overwrite me
+		"""
+		pass
+
+	def com(self, com: Com):
 		def decorator(fun):
-			# fun.api = api #NOSONAR Could be used
 			com.method = com.method if com.method else fun
 			return fun
 
-		api = api if api else Api.get_default()
-		api.commands.append(com)
+		self.commands.append(com)
 		return decorator
-
-	@staticmethod
-	def get_default():
-		Api.__default = Api.__default if Api.__default else Api()
-		return Api.__default
 
 	def quick_run(self, com: str):
 		rc: RetCom
