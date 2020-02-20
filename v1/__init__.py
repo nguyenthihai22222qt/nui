@@ -1,5 +1,3 @@
-import tkinter
-
 from .style import Style
 from .widgets import *
 
