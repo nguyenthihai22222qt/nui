@@ -26,15 +26,20 @@ class Api:
 		"""
 		return arg
 
-	# fun = com()(fun) NOSONAR
-
 	def set_commands(self):
 		"""
 		Overwrite me
 		"""
 		pass
 
+	# fun = com()(fun) NOSONAR
 	def com(self, com: Com):
+		"""
+		Decorator around Com logic methods
+		:param com: Com()
+		:return: com.method if com.method else fun
+		"""
+
 		def decorator(fun):
 			com.method = com.method if com.method else fun
 			return fun
