@@ -13,7 +13,7 @@ class Stage(tkinter.Frame):
 
 		self.master.bind('<Key>', self._typed)
 
-	def add(self, name: str, scene: Type['Scene']) -> 'Stage':
+	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
 		"""
 		Add scene
 		Possible to chain (.add(...).add(...).add(...) you get it).
@@ -21,7 +21,7 @@ class Stage(tkinter.Frame):
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)
 		"""
-		self._scenes[name.lower()] = scene(self)
+		self._scenes[name.lower()] = scene(self, *args, **kwargs)
 		return self
 
 	def __getitem__(self, name: str) -> 'Scene':
@@ -78,7 +78,7 @@ class Stage(tkinter.Frame):
 
 
 class Scene(tkinter.Frame):
-	def __init__(self, stage: Stage):
+	def __init__(self, stage: Stage, *args, **kwargs):
 		super().__init__(stage, bg=stage.style.bg)
 		self.stage: stage = stage
 
