@@ -17,20 +17,20 @@ class Stage(tkinter.Frame):
 		"""
 		Add scene
 		Possible to chain (.add(...).add(...).add(...) you get it).
-		:param name: Name/Key of the scene
+		:param name: Name/Key of the scene. Automatically converted to lower case.
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)
 		"""
-		self._scenes[name] = scene(self)
+		self._scenes[name.lower()] = scene(self)
 		return self
 
-	def __getitem__(self, item: str) -> 'Scene':
+	def __getitem__(self, name: str) -> 'Scene':
 		"""
 		Get specific scene. Any other way of getting scenes is discouraged
-		:param item: Name/Key of Scene
+		:param name: Name/Key of Scene. Automatically converted to lower case.
 		:return: Scene object
 		"""
-		return self._scenes.get(item)
+		return self._scenes.get(name.lower())
 
 	def _typed(self, event) -> None:
 		"""
