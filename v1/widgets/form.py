@@ -6,8 +6,9 @@ from .. import Style
 
 # TODO Offset everything
 # TODO Bind
-class Form(tkinter.Frame):  # TODO Reduce boiler plate
-	def __init__(self, master, style: Style, **kw):
+# TODO Reduce boiler plate
+class Form(tkinter.Frame):
+	def __init__(self, master, style: Style = None, **kw):
 		super().__init__(master, bg=style.bg, **kw)
 		self.style = style
 		self._fields = []
