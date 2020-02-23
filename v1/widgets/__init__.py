@@ -10,5 +10,5 @@ class Frame(tkinter.Frame):
 
 	def add(self, widget, widget_kw=None, pack_kw=None):
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
-		widget(self, self.stage.style, **widget_kw).pack(**pack_kw)
+		widget(self, **widget_kw).pack(**pack_kw)
 		return self
