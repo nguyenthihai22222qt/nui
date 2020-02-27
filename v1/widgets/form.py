@@ -3,8 +3,6 @@ import tkinter
 from .basic import Label, Entry, Text
 
 
-# TODO Margin & padding
-# TODO Bind
 class Form(tkinter.Frame):
 	def __init__(self, master, **kw):
 		self.stage = master.stage

@@ -1,4 +1,4 @@
-from typing import Union, Dict, Type
+from typing import Union, Dict, Type, List
 
 from .style import Style
 from .widgets import *
@@ -75,6 +75,30 @@ class Stage(tkinter.Frame):
 		self.switch(scene)
 		self.master.after(1, self.tick)
 		self.master.mainloop()
+
+	def popup(self, title: str, message: str, options: List[str]):
+		root = tkinter.Toplevel()
+		root.resizable(False, False)
+		root.title(title)
+		tkinter.Label(root, text=message, bg=self.style.bg, fg=self.style.fg).pack(fill='both')
+		frame = tkinter.Frame(root, bg=self.style.bg)
+		out = tkinter.StringVar()
+
+		def on_closing():
+			root.destroy()
+			root.quit()
+
+		def com(text):
+			out.set(text)
+			on_closing()
+
+		root.protocol("WM_DELETE_WINDOW", on_closing)
+		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both', side='right') for x in options]
+		frame.pack(fill='both')
+		root.grab_set()
+		root.mainloop()
+		root.grab_release()
+		return out.get()
 
 
 class Scene(tkinter.Frame):
