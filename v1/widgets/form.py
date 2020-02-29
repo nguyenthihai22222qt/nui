@@ -1,40 +1,29 @@
-import tkinter
+from typing import Type
 
-from .basic import Label, Entry, Text
+from .arch import Frame, Field
+from .basic import Entry, Text
 
 
-class Form(tkinter.Frame):
+class Form(Frame):
 	def __init__(self, master, **kw):
-		self.stage = master.stage
-		super().__init__(master, bg=self.stage.style.bg, **kw)
+		super().__init__(master, **kw)
 		self._fields = []
 
-	def add_entry(self, label: str):
-		self._fields.append(EntryField(self, label))
-		self._fields[-1].pack(fill='x', expand=True)
-		return self
-
-	def add_text(self, label: str):
-		self._fields.append(TextField(self, label))
+	def add_field(self, field: Type[Field], label: str, **kw):
+		self._fields.append(field(self, label, **kw))
 		self._fields[-1].pack(fill='x', expand=True)
 		return self
 
 
-class EntryField(tkinter.Frame):
+class EntryField(Field):
 	def __init__(self, master, label: str, **kw):
-		self.stage = master.stage
-		super().__init__(master, bg=self.stage.style.bg, **kw)
-		self.label = Label(self, text=label)
+		super().__init__(master, label, **kw)
 		self.input = Entry(self, width=1)
-		self.label.pack(side='left')
 		self.input.pack(side='right', fill='x', expand=True)
 
 
-class TextField(tkinter.Frame):
+class TextField(Field):
 	def __init__(self, master, label: str, **kw):
-		self.stage = master.stage
-		super().__init__(master, bg=self.stage.style.bg, **kw)
-		self.label = Label(self, text=label)
+		super().__init__(master, label, **kw)
 		self.input = Text(self, width=1, height=2)
-		self.label.pack(side='left')
 		self.input.pack(side='right', fill='x', expand=True)
