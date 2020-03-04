@@ -20,13 +20,13 @@ class RetCom:
 		except:
 			return default
 
-	def quick(self, answer: str = '', code: RetCode = RetCode.OK) -> 'RetCom':
-		self.answer = answer
+	def quick(self, answer='', code: RetCode = RetCode.OK) -> 'RetCom':
+		self.answer = answer if isinstance(answer, str) else repr(answer)
 		self.code = code
 		return self
 
-	def error(self, answer: str = '') -> 'RetCom':
-		self.answer = answer
+	def error(self, answer='') -> 'RetCom':
+		self.answer = answer if isinstance(answer, str) else repr(answer)
 		self.code = RetCode.ERROR
 		return self
 
