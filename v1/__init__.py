@@ -1,4 +1,4 @@
-from typing import Union, Dict, Type, List
+from typing import Union, Dict, List
 
 from .style import Style
 from .widgets import *
@@ -44,11 +44,11 @@ class Stage(tkinter.Frame):
 
 	def switch(self, to: Union['Scene', str]) -> None:
 		"""
-		Switches scenes. Any other way of switching scenes is discouraged.
-		1. Call active scene deactivate() method
-		2. Replace active scene with new one (`to` param)
-		3. Call activate() on (new) active scene
-		(4. Focus active scene)
+		Switches scenes. Any other way of switching scenes is discouraged.\n
+		1. Call active scene deactivate() method\n
+		2. Replace active scene with new one (`to` param)\n
+		3. Call activate() on (new) active scene\n
+		(4. Focus active scene)\n
 		:param to: Scene switching to
 		:return: None
 		"""
