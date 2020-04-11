@@ -35,7 +35,7 @@ class Field(Frame):
 		self.set_(self.b_get())
 
 	def get(self):
-		raise Exception(f"Get method of field f{self.__class__}: {self.label['text']}")
+		raise Exception(f"Get method of field f{self.__class__}: {self.label['text']}")  # NOSONAR
 
 	def set_(self, value):
-		raise Exception(f"Get method of field f{self.__class__}: {self.label['text']}")
+		raise Exception(f"Get method of field f{self.__class__}: {self.label['text']}")  # NOSONAR
