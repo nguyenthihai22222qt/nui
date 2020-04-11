@@ -1,4 +1,5 @@
 import tkinter
+from typing import Callable
 
 from .basic import Label
 
@@ -8,11 +9,18 @@ class Frame(tkinter.Frame):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, **kw)
 
-	def add(self, widget, widget_kw=None, pack_kw=None):
+	def inline_add(self, widget, widget_kw=None, pack_kw=None) -> 'Frame':
 		widget_kw = widget_kw if widget_kw else {}
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
 		widget(self, **widget_kw).pack(**pack_kw)
 		return self
+
+	def add(self, widget, widget_kw=None, pack_kw=None):
+		widget_kw = widget_kw if widget_kw else {}
+		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
+		w = widget(self, **widget_kw)
+		w.pack(**pack_kw)
+		return w
 
 
 class Field(Frame):
@@ -21,16 +29,7 @@ class Field(Frame):
 		self.label = Label(self, text=label)
 		self.label.pack(side='left')
 		self.b_get = lambda: None
-		self.b_set = lambda v: None
-		self.auto_write: bool = False
-
-	def value_change_event(self, _=None):  # TODO Test how many times this calls write/read
-		if self.auto_write:
-			self.write()
-			self.read()
-
-	def write(self):
-		self.b_set(self.get())
+		self.auto_write: Callable[[], None] = lambda: None
 
 	def read(self):
 		self.set_(self.b_get())
