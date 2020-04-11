@@ -8,10 +8,16 @@ class Frame(tkinter.Frame):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, **kw)
 
-	def add(self, widget, widget_kw=None, pack_kw=None):
+	def inline_add(self, widget, widget_kw=None, pack_kw=None) -> 'Frame':
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
 		widget(self, **widget_kw).pack(**pack_kw)
 		return self
+
+	def add(self, widget, widget_kw=None, pack_kw=None):
+		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
+		w = widget(self, **widget_kw)
+		w.pack(**pack_kw)
+		return w
 
 
 class Field(Frame):
