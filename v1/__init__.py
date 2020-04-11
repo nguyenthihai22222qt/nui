@@ -66,14 +66,16 @@ class Stage(tkinter.Frame):
 		self._active.tick()
 		self.after(10, self.tick)
 
-	def run(self, scene: Union['Scene', str]) -> None:
+	def run(self, scene: Union['Scene', str], enable_tick: bool = True) -> None:
 		"""
-		Call this to show window and run mainloop. Any other way of running mainloop is discouraged.
+		Call this to show window and run mainloop. Any other way of running mainloop is discouraged.\n
+		:param enable_tick: Do you not want to use tick() methods? Set this to False (could save some process power idk)
 		:param scene: Scene to show after start
 		:return: None
 		"""
 		self.switch(scene)
-		self.master.after(1, self.tick)
+		if enable_tick:
+			self.master.after(1, self.tick)
 		self.master.mainloop()
 
 	def popup(self, title: str, message: str, options: List[str]):
