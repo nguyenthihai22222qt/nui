@@ -75,11 +75,20 @@ class Stage(tkinter.Frame):
 		:return: None
 		"""
 		if pack:
-			self.pack(fill='both')
+			self.pack(fill='both', expand=True)
 		self.switch(scene)
 		if enable_tick:
 			self.master.after(1, self.tick)
 		self.master.mainloop()
+
+	def call(self, method: Callable) -> 'Stage':
+		"""
+		Call methods on stage. Good if you want to have Stage constructor and run() on one line
+		:param method: Stage is parsed as param
+		:return: Stage (self)
+		"""
+		method(self)
+		return self
 
 	def popup(self, title: str, message: str, options: List[str]):
 		root = tkinter.Toplevel()
