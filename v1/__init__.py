@@ -66,13 +66,16 @@ class Stage(tkinter.Frame):
 		self._active.tick()
 		self.after(10, self.tick)
 
-	def run(self, scene: Union['Scene', str], enable_tick: bool = True) -> None:
+	def run(self, /, scene: Union['Scene', str], *, pack: bool = True, enable_tick: bool = True) -> None:
 		"""
 		Call this to show window and run mainloop. Any other way of running mainloop is discouraged.\n
+		:param pack: Pack stage
 		:param enable_tick: Do you not want to use tick() methods? Set this to False (could save some process power idk)
 		:param scene: Scene to show after start
 		:return: None
 		"""
+		if pack:
+			self.pack(fill='both')
 		self.switch(scene)
 		if enable_tick:
 			self.master.after(1, self.tick)
@@ -95,7 +98,8 @@ class Stage(tkinter.Frame):
 			on_closing()
 
 		root.protocol("WM_DELETE_WINDOW", on_closing)
-		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both', side='right') for x in options]
+		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both',
+			side='right') for x in options]
 		frame.pack(fill='both')
 		root.grab_set()
 		root.mainloop()
