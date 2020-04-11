@@ -9,6 +9,7 @@ class Frame(tkinter.Frame):
 		super().__init__(master, bg=self.stage.style.bg, **kw)
 
 	def add(self, widget, widget_kw=None, pack_kw=None):
+		widget_kw = widget_kw if widget_kw else {}
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
 		widget(self, **widget_kw).pack(**pack_kw)
 		return self
