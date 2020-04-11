@@ -42,7 +42,6 @@ class EntryField(Field):
 		return self.input.get()
 
 	def set_(self, value):
-		value = value if value else ''
 		self.input.delete(0, 'end')
 		self.input.insert('end', value)
 
@@ -58,6 +57,5 @@ class TextField(Field):
 		return self.input.get(1.0, 'end').strip()
 
 	def set_(self, value):
-		value = value if value else ''
 		self.input.delete(1.0, 'end')
 		self.input.insert('end', value)

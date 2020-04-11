@@ -28,11 +28,12 @@ class Field(Frame):
 		super().__init__(master, **kw)
 		self.label = Label(self, text=label)
 		self.label.pack(side='left')
-		self.b_get = lambda: None
+		self.b_get = lambda: ''
 		self.auto_write: Callable[[], None] = lambda: None
 
 	def read(self):
-		self.set_(self.b_get())
+		v = self.b_get()
+		self.set_(v if v or v == 0 else '')
 
 	def get(self):
 		raise Exception(f"Get method of field f{self.__class__}: {self.label['text']}")  # NOSONAR
