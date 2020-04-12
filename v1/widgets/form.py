@@ -1,7 +1,7 @@
 from typing import Type, Callable, Any
 
 from .arch import Frame, Field
-from .basic import Entry, Text
+from .basic import Entry, Text, Label
 
 
 class Form(Frame):
@@ -59,3 +59,16 @@ class TextField(Field):
 	def set_(self, value):
 		self.input.delete(1.0, 'end')
 		self.input.insert('end', value)
+
+
+class LabelField(Field):
+	def __init__(self, master, label: str, **kw):
+		super().__init__(master, label, **kw)
+		self.this = Label(self)
+		self.this.pack(side='right', fill='x', expand=True)
+
+	def get(self):
+		return self.this['text']
+
+	def set_(self, value):
+		self.this['text'] = value
