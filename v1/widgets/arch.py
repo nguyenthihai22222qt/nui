@@ -18,16 +18,17 @@ class Frame(tkinter.Frame):
 	def add(self, widget, widget_kw=None, pack_kw=None):
 		widget_kw = widget_kw if widget_kw else {}
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
-		w = widget(self, **widget_kw)
-		w.pack(**pack_kw)
-		return w
+		return widget(self, **widget_kw).inline_pack(**pack_kw)
+
+	def inline_pack(self, /, *, fill='both', side='top', expand=False, **kw) -> 'Frame':
+		self.pack(fill=fill, side=side, expand=expand, **kw)
+		return self
 
 
 class Field(Frame):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, **kw)
-		self.label = Label(self, text=label)
-		self.label.pack(side='left')
+		self.label = Label(self, text=label).inline_pack(side='left')
 		self.b_get = lambda: ''
 		self.auto_write: Callable[[], None] = lambda: None
 

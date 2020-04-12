@@ -18,8 +18,7 @@ class Form(Frame):
 		f = field(self, label, **kw)
 		f.b_get = bind_get
 		f.auto_write = self.auto_write
-		self._fields[name] = f
-		self._fields[name].pack(fill='x')
+		self._fields[name] = f.inline_pack(fill='x')
 		return self
 
 	def set_fields(self):
@@ -34,9 +33,8 @@ class Form(Frame):
 class EntryField(Field):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, label, **kw)
-		self.input = Entry(self, width=1)
+		self.input = Entry(self, width=1).inline_pack(side='right', fill='x', expand=True)
 		self.input.bind('<KeyRelease>', lambda _: self.auto_write())
-		self.input.pack(side='right', fill='x', expand=True)
 
 	def get(self):
 		return self.input.get()
@@ -49,9 +47,8 @@ class EntryField(Field):
 class TextField(Field):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, label, **kw)
-		self.input = Text(self, width=1, height=2)
+		self.input = Text(self, width=1, height=2).inline_pack(side='right', fill='x', expand=True)
 		self.input.bind('<KeyRelease>', lambda _: self.auto_write())
-		self.input.pack(side='right', fill='x', expand=True)
 
 	def get(self):
 		return self.input.get(1.0, 'end').strip()
@@ -64,8 +61,7 @@ class TextField(Field):
 class LabelField(Field):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, label, **kw)
-		self.this = Label(self)
-		self.this.pack(side='right', fill='x', expand=True)
+		self.this = Label(self).inline_pack(side='right', fill='x', expand=True)
 
 	def get(self):
 		return self.this['text']
