@@ -1,10 +1,10 @@
 import tkinter
 from typing import Callable, Type
 
-from .basic import Label
+from .basic import IPack, Label
 
 
-class Frame(tkinter.Frame):
+class Frame(tkinter.Frame, IPack):
 	def __init__(self, master, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, **kw)
@@ -36,18 +36,6 @@ class Frame(tkinter.Frame):
 		o.pack(**pack_kw)  # tkinter doesn't have inline_pack()
 		return o
 
-	def inline_pack(self, /, *, fill='both', side='top', expand=False, **kw) -> 'Frame':
-		"""
-		Packs it's self and returns self.\n
-		:param fill: Specifies whether the widget should occupy all the space provided to it by the master. If NONE, keep the widget’s original size. If X (fill horizontally), Y (fill vertically), or BOTH (default), fill the given space along that direction. To make a widget fill the entire master widget, set fill to BOTH and expand to a non-zero value.
-		:param side: Specifies which side to pack the widget against. To pack widgets vertically, use TOP (default). To pack widgets horizontally, use LEFT. You can also pack widgets along the BOTTOM and RIGHT edges.
-		:param expand: Specifies whether the widgets should be expanded to fill any extra space in the geometry master. If false (default), the widget is not expanded.
-		:param kw: Other options (see official tkinter.Widget.pack() documentation)
-		:return: self
-		"""
-		self.pack(fill=fill, side=side, expand=expand, **kw)
-		return self
-
 
 class Field(Frame):
 	def __init__(self, master, label: str, **kw):
@@ -62,7 +50,7 @@ class Field(Frame):
 		self.b_get = lambda: ''
 		self.auto_write: Callable[[], None] = lambda: None
 
-	def read(self) -> None:
+	def set_field(self) -> None:
 		"""
 		Sets field.\n
 		"""

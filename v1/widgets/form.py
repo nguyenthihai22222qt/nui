@@ -23,7 +23,7 @@ class Form(Frame):
 
 	def set_fields(self):
 		for field in self._fields.values():
-			field.read()
+			field.set_field()
 		return self
 
 	def __getitem__(self, item):
