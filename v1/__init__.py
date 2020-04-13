@@ -108,8 +108,7 @@ class Stage(tkinter.Frame):
 			on_closing()
 
 		root.protocol("WM_DELETE_WINDOW", on_closing)
-		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both',
-			side='right') for x in options]
+		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both', side='right') for x in options]
 		frame.pack(fill='both')
 		root.grab_set()
 		root.mainloop()
