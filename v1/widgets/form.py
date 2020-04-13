@@ -61,29 +61,31 @@ class Form(Frame):
 class EntryField(Field):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, label, **kw)
-		self.input = Entry(self, width=1).inline_pack(side='right', fill='x', expand=True)
-		self.input.bind('<KeyRelease>', lambda _: self.auto_write())
+		self.this = Entry(self, width=1).inline_pack(side='right', fill='x', expand=True).inline_bind('<KeyRelease>', lambda _: self.auto_write())
+
+	# self.this.bind('<KeyRelease>', lambda _: self.auto_write())
 
 	def get(self):
-		return self.input.get()
+		return self.this.get()
 
 	def set_(self, value):
-		self.input.delete(0, 'end')
-		self.input.insert('end', value)
+		self.this.delete(0, 'end')
+		self.this.insert('end', value)
 
 
 class TextField(Field):
 	def __init__(self, master, label: str, **kw):
 		super().__init__(master, label, **kw)
-		self.input = Text(self, width=1, height=2).inline_pack(side='right', fill='x', expand=True)
-		self.input.bind('<KeyRelease>', lambda _: self.auto_write())
+		self.this = Text(self, width=1, height=2).inline_pack(side='right', fill='x', expand=True).inline_bind('<KeyRelease>', lambda _: self.auto_write())
+
+	# self.this.bind('<KeyRelease>', lambda _: self.auto_write())
 
 	def get(self):
-		return self.input.get(1.0, 'end').strip()
+		return self.this.get(1.0, 'end').strip()
 
 	def set_(self, value):
-		self.input.delete(1.0, 'end')
-		self.input.insert('end', value)
+		self.this.delete(1.0, 'end')
+		self.this.insert('end', value)
 
 
 class LabelField(Field):

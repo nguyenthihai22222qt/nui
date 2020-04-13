@@ -1,28 +1,28 @@
 import tkinter
 from typing import Callable
 
-from .ipack import IPack
+from .imethods import IMethods
 
 
-class Label(tkinter.Label, IPack):
+class Label(tkinter.Label, IMethods):
 	def __init__(self, master, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, fg=self.stage.style.fg, **kw)
 
 
-class Button(tkinter.Button, IPack):
+class Button(tkinter.Button, IMethods):
 	def __init__(self, master, command: Callable, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, fg=self.stage.style.fg, command=command, **kw)
 
 
-class Entry(tkinter.Entry, IPack):
+class Entry(tkinter.Entry, IMethods):
 	def __init__(self, master, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, fg=self.stage.style.fg, insertbackground=self.stage.style.fg, **kw)
 
 
-class Text(tkinter.Text, IPack):
+class Text(tkinter.Text, IMethods):
 	def __init__(self, master, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, fg=self.stage.style.fg, insertbackground=self.stage.style.fg, **kw)

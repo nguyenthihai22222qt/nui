@@ -1,10 +1,10 @@
 import tkinter
 from typing import Callable, Type
 
-from .basic import IPack, Label
+from .basic import IMethods, Label
 
 
-class Frame(tkinter.Frame, IPack):
+class Frame(tkinter.Frame, IMethods):
 	def __init__(self, master, **kw):
 		self.stage = master.stage
 		super().__init__(master, bg=self.stage.style.bg, **kw)
