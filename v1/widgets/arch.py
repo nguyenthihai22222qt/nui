@@ -18,7 +18,9 @@ class Frame(tkinter.Frame):
 	def add(self, widget, widget_kw=None, pack_kw=None):
 		widget_kw = widget_kw if widget_kw else {}
 		pack_kw = pack_kw if pack_kw else {'fill': 'both'}
-		return widget(self, **widget_kw).inline_pack(**pack_kw)
+		o = widget(self, **widget_kw)
+		o.pack(**pack_kw)  # tkinter doesn't have inline_pack()
+		return o
 
 	def inline_pack(self, /, *, fill='both', side='top', expand=False, **kw) -> 'Frame':
 		self.pack(fill=fill, side=side, expand=expand, **kw)
