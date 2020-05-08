@@ -1,2 +1,2 @@
-from .v1 import *
-from .v1 import widgets
+from .ngui import *
+from .ngui import widgets
