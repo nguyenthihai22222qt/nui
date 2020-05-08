@@ -1,0 +1,11 @@
+.vscode/
+.idea/
+__pycache__/
+venv/
+out/
+nudes/
+server.bat
+main.exe
+test*
+*.iml
+*.dll
