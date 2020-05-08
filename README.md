@@ -1,4 +1,4 @@
-# Jun
+# Nui
 Ncui: Basic Console user interface for python
 Ngui: Basic wrapper around tkinter
 
