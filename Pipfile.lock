@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7f7606f08e0544d8d012ef4d097dabdd6df6843a28793eb6551245d4b2db4242"
+            "sha256": "c85780093c5cf1ba815871d0db0426eb8d20e53e81a21dcfd90680e14618b58b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,6 +15,11 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "nui": {
+            "git": "https://github.com/TheNovi/Nui.git",
+            "ref": "878ba71ebac2382cebbdf3949ed083dc27d69430"
+        }
+    },
     "develop": {}
 }
