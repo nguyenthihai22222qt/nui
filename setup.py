@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name='nui',
-	version='0.1',
+	version='0.2',
 	url='https://github.com/TheNovi/Nui',
 	license='MIT',
 	author='TheNovi',
