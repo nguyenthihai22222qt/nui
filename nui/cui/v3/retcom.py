@@ -17,7 +17,7 @@ class RetCom:
 		# noinspection PyBroadException
 		try:
 			return method(self.args[index])
-		except:
+		except:  # NOSONAR
 			return default
 
 	def quick(self, answer='', code: RetCode = RetCode.OK) -> 'RetCom':

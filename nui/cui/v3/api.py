@@ -6,8 +6,6 @@ from .shell import Shell
 
 # noinspection PyMethodMayBeStatic
 class Api:
-	__default = None
-
 	def __init__(self):
 		self.commands = []
 		self.shell: Shell = Shell(self)
