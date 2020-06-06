@@ -3,7 +3,7 @@ from typing import Union, Dict, List, Type
 
 from .style import Style
 from .widgets import *
-from .widgets import form
+from .widgets.form import Form
 
 
 class Stage(tkinter.Frame):
@@ -18,7 +18,7 @@ class Stage(tkinter.Frame):
 	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
 		"""
 		Add scene
-		Possible to chain (.add(...).add(...).add(...) you get it).
+		Possible to chain (.add(...).add(...).add(...) you get_ it).
 		:param name: Name/Key of the scene. Automatically converted to lower case.
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)

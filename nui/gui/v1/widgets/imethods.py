@@ -25,3 +25,15 @@ class IMethods(tkinter.Widget):
 		"""
 		self.bind(sequence=sequence, func=func, add=add)
 		return self
+
+	def get_(self):
+		"""
+		Returns widget value.\n
+		"""
+		raise Exception(f"Get method of Widget f{self.__class__}")  # NOSONAR
+
+	def set_(self, value) -> None:
+		"""
+		Sets widget value.\n
+		"""
+		raise Exception(f"Get method of Widget f{self.__class__}")  # NOSONAR
