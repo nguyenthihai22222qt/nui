@@ -1,3 +1,4 @@
+from inspect import isclass
 from typing import Union, Dict, List, Type
 
 from .style import Style
@@ -43,7 +44,7 @@ class Stage(tkinter.Frame):
 		"""
 		self._active.typed(event)
 
-	def switch(self, to: Union['Scene', str]) -> None:
+	def switch(self, to: Union[Type['Scene'], str]) -> None:
 		"""
 		Switches scenes. Any other way of switching scenes is discouraged.\n
 		1. Call active scene deactivate() method\n
@@ -54,7 +55,7 @@ class Stage(tkinter.Frame):
 		:return: None
 		"""
 		self._active.deactivate()
-		self._active = (to if isinstance(to, Scene) else self._scenes.get(to))
+		self._active = to(self) if isclass(to) else self._scenes.get(to)
 		self._active.activate()
 		self._active.focus_set()
 
@@ -67,7 +68,7 @@ class Stage(tkinter.Frame):
 		self._active.tick()
 		self.after(10, self.tick)
 
-	def run(self, /, scene: Union['Scene', str], *, pack: bool = True, enable_tick: bool = True) -> None:
+	def run(self, /, scene: Union[Type['Scene'], str], *, pack: bool = True, enable_tick: bool = True) -> None:
 		"""
 		Call this to show window and run mainloop. Any other way of running mainloop is discouraged.\n
 		:param pack: Pack stage
