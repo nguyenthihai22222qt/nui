@@ -8,12 +8,6 @@ from .imethods import IMethods
 class Form(Frame):
 	class _Field(Frame):
 		def __init__(self, master, label: str, widget: Type[IMethods], b_get: Callable = lambda: '', auto_write: Callable = lambda: None, **kw):
-			"""
-			Mainly used in Form.\n
-			:param master: Parent widget
-			:param label: Description
-			:param kw: Other tkinter kwargs
-			"""
 			super().__init__(master)
 			self.label = Label(self, text=label).inline_pack(side='left')
 			self.w = widget(self, **kw).inline_bind('<KeyRelease>', lambda _: auto_write()).inline_pack(expand=True)
@@ -28,7 +22,7 @@ class Form(Frame):
 
 	def __init__(self, master, **kw):
 		"""
-		Container for Fields. Also have some tools for quick get_/set for values of objects.\n
+		Container for Fields. Also have some tools for quick get/set for values of objects.\n
 		:param master: Parent widget
 		:param kw: Other tkinter options
 		"""
