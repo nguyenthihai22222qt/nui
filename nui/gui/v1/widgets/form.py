@@ -39,7 +39,7 @@ class Form(Frame):
 		self.auto_write = auto_write
 		return self
 
-	def add_field(self, name: Any, widget: Type[IMethods], label: str, bind_get: Callable[[], str] = lambda: None, **kw) -> 'Form':
+	def add_field(self, name: Any, widget: Type[IMethods], label: str, bind_get: Callable[[], Any] = lambda: None, **kw) -> 'Form':
 		"""
 		Add field.\n
 		:param name: Key used in __getitem__() (str type is recommended)

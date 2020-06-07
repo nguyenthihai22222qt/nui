@@ -1,9 +1,8 @@
 from inspect import isclass
-from typing import Union, Dict, List, Type
+from typing import Union
 
 from .style import Style
 from .widgets import *
-from .widgets.form import Form
 
 
 class Stage(tkinter.Frame):
