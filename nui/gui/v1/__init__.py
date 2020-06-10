@@ -14,7 +14,7 @@ class Stage(tkinter.Frame):
 		if getattr(sys, 'frozen', False):
 			tmp = path.join(sys.executable, frozen_path_join)
 		else:
-			tmp = path.join(__file___, non_frozen_path_join)
+			tmp = path.join(path.dirname(__file___), non_frozen_path_join)
 		self._path = path.realpath(tmp)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
