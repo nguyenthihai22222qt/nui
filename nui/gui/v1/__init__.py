@@ -1,4 +1,6 @@
+import sys
 from inspect import isclass
+from os import path
 from typing import Union
 
 from .style import Style
@@ -6,9 +8,14 @@ from .widgets import *
 
 
 class Stage(tkinter.Frame):
-	def __init__(self, style: Style):
+	def __init__(self, style: Style, __file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
 		super().__init__(tkinter.Tk(), bg=style.bg)
 		self.style = style
+		if getattr(sys, 'frozen', False):
+			tmp = path.join(sys.executable, frozen_path_join)
+		else:
+			tmp = path.join(__file___, non_frozen_path_join)
+		self._path = path.realpath(tmp)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
 
@@ -90,6 +97,9 @@ class Stage(tkinter.Frame):
 		"""
 		method(self)
 		return self
+
+	def path(self, join: str = ''):
+		return path.join(self._path, join)
 
 	def popup(self, title: str, message: str, options: List[str]):
 		root = tkinter.Toplevel()
