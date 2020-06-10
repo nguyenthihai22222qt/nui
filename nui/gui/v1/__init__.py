@@ -31,7 +31,7 @@ class Stage(tkinter.Frame):
 		:return:
 		"""
 		if getattr(sys, 'frozen', False):
-			tmp = path.join(sys.executable, frozen_path_join)
+			tmp = path.join(path.dirname(sys.executable), frozen_path_join)
 		else:
 			tmp = path.join(path.dirname(__file___), non_frozen_path_join)
 		return path.realpath(tmp)
