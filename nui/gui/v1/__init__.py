@@ -11,15 +11,30 @@ class Stage(tkinter.Frame):
 	def __init__(self, style: Style, __file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
 		super().__init__(tkinter.Tk(), bg=style.bg)
 		self.style = style
-		if getattr(sys, 'frozen', False):
-			tmp = path.join(sys.executable, frozen_path_join)
-		else:
-			tmp = path.join(path.dirname(__file___), non_frozen_path_join)
-		self._path = path.realpath(tmp)
+		self._path = Stage.gen_path(__file___, non_frozen_path_join, frozen_path_join)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
 
 		self.master.bind('<Key>', self._typed)
+
+	def path(self, join: str = ''):
+		return path.join(self._path, join)
+
+	@staticmethod
+	def gen_path(__file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+		"""
+		Used when project path is needed before Stage is created.
+		After you have access to Stage object use path() method.
+		:param __file___: Pass __file__
+		:param non_frozen_path_join: join to path if not frozen (runned as python script)
+		:param frozen_path_join: join to path if frozen (runned as exe bunded by PyInstaller)
+		:return:
+		"""
+		if getattr(sys, 'frozen', False):
+			tmp = path.join(sys.executable, frozen_path_join)
+		else:
+			tmp = path.join(path.dirname(__file___), non_frozen_path_join)
+		return path.realpath(tmp)
 
 	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
 		"""
@@ -97,9 +112,6 @@ class Stage(tkinter.Frame):
 		"""
 		method(self)
 		return self
-
-	def path(self, join: str = ''):
-		return path.join(self._path, join)
 
 	def popup(self, title: str, message: str, options: List[str]):
 		root = tkinter.Toplevel()
