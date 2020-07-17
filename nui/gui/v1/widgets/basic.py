@@ -2,12 +2,14 @@ import tkinter
 from typing import Callable, List, Any
 
 from .imethods import IMethods
+from .. import Style
 
 
 class Label(tkinter.Label, IMethods):
-	def __init__(self, master, text: str = '', **kw):
+	def __init__(self, master, text: str = '', style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, text=text, bg=self.stage.style.bg, fg=self.stage.style.fg, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, text=text, bg=self.style.bg, fg=self.style.fg, font=self.style.font, **kw)
 
 	def get_(self):
 		return self['text']
@@ -17,9 +19,10 @@ class Label(tkinter.Label, IMethods):
 
 
 class Button(tkinter.Button, IMethods):
-	def __init__(self, master, text: str, command: Callable, **kw):
+	def __init__(self, master, command: Callable, text: str = '', style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, text=text, bg=self.stage.style.bg, fg=self.stage.style.fg, command=command, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, text=text, bg=self.style.bg, fg=self.style.fg, font=self.style.font, command=command, **kw)
 
 	def get_(self):
 		return self['text']
@@ -29,9 +32,10 @@ class Button(tkinter.Button, IMethods):
 
 
 class Entry(tkinter.Entry, IMethods):
-	def __init__(self, master, width: int = 1, **kw):
+	def __init__(self, master, width: int = 1, style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, width=width, bg=self.stage.style.bg, fg=self.stage.style.fg, insertbackground=self.stage.style.fg, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, width=width, bg=self.style.bg, fg=self.style.fg, insertbackground=self.style.fg, font=self.style.font, **kw)
 
 	def get_(self):
 		return self.get()
@@ -42,9 +46,10 @@ class Entry(tkinter.Entry, IMethods):
 
 
 class Text(tkinter.Text, IMethods):
-	def __init__(self, master, width: int = 1, height: int = 1, **kw):
+	def __init__(self, master, width: int = 1, height: int = 1, style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, width=width, height=height, bg=self.stage.style.bg, fg=self.stage.style.fg, insertbackground=self.stage.style.fg, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, width=width, height=height, bg=self.style.bg, fg=self.style.fg, insertbackground=self.style.fg, font=self.style.font, **kw)
 
 	def get_(self):
 		return self.get(1.0, 'end').strip()
@@ -55,9 +60,10 @@ class Text(tkinter.Text, IMethods):
 
 
 class Listbox(tkinter.Listbox, IMethods):
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), min_width: int = 1, height: int = 10, auto_width: bool = True, highlightthickness: int = 0, **kw):
+	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), min_width: int = 1, height: int = 10, auto_width: bool = True, highlightthickness: int = 0, style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, width=min_width, height=height, selectmode='single', highlightthickness=highlightthickness, bg=self.stage.style.bg, fg=self.stage.style.fg, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, width=min_width, height=height, selectmode='single', highlightthickness=highlightthickness, bg=self.style.bg, fg=self.style.fg, font=self.style.font, **kw)
 		self._parse_method = parse_method
 		self.min_width = min_width
 		self.auto_width = auto_width

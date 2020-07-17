@@ -2,12 +2,14 @@ import tkinter
 from typing import Type
 
 from .basic import IMethods
+from .. import Style
 
 
 class Frame(tkinter.Frame, IMethods):
-	def __init__(self, master, **kw):
+	def __init__(self, master, style: Style = None, **kw):
 		self.stage = master.stage
-		super().__init__(master, bg=self.stage.style.bg, **kw)
+		self.style: Style = style if style else master.style
+		super().__init__(master, bg=self.style.bg, **kw)
 
 	def inline_add(self, widget: Type[tkinter.Widget], widget_kw: dict = None, pack_kw: dict = None) -> 'Frame':
 		"""

@@ -3,14 +3,16 @@ from typing import Callable, Any, List
 
 from .arch import Frame
 from .imethods import IMethods
+from .. import Style
 
 
 class CheckBoxButtonGroup(Frame, IMethods):
 	class CheckBoxButton(tkinter.Checkbutton, IMethods):
-		def __init__(self, master, text: str, command: Callable = lambda: None, **kw):
+		def __init__(self, master, text: str, command: Callable = lambda: None, style: Style = None, **kw):
 			self.stage = master.stage
+			self.style: Style = style if style else master.style
 			self.v = tkinter.IntVar()
-			super().__init__(master, text=text, command=command, variable=self.v, bg=self.stage.style.bg, fg=self.stage.style.fg, selectcolor=self.stage.style.bg, activebackground=self.stage.style.bg, activeforeground=self.stage.style.fg, **kw)
+			super().__init__(master, text=text, command=command, variable=self.v, bg=self.style.bg, fg=self.style.fg, font=self.style.font, selectcolor=self.style.bg, activebackground=self.style.bg, activeforeground=self.style.fg, **kw)
 
 		def get_(self):
 			return self['text']
@@ -21,8 +23,8 @@ class CheckBoxButtonGroup(Frame, IMethods):
 		def is_selected(self):
 			return self.v.get()
 
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), **kw):
-		super().__init__(master, **kw)
+	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
+		super().__init__(master, style=style, **kw)
 		self._parse_method = parse_method
 		self._values = []
 		self._buttons: List[CheckBoxButtonGroup.CheckBoxButton] = []
@@ -48,9 +50,10 @@ class CheckBoxButtonGroup(Frame, IMethods):
 
 class RadioButtonGroup(Frame, IMethods):
 	class RadioButton(tkinter.Radiobutton, IMethods):
-		def __init__(self, master, variable: tkinter.Variable, text: str, value, command: Callable = lambda: None, **kw):
+		def __init__(self, master, variable: tkinter.Variable, text: str, value, command: Callable = lambda: None, style: Style = None, **kw):
 			self.stage = master.stage
-			super().__init__(master, text=text, command=command, variable=variable, value=value, bg=self.stage.style.bg, fg=self.stage.style.fg, selectcolor=self.stage.style.bg, activebackground=self.stage.style.bg, activeforeground=self.stage.style.fg, **kw)
+			self.style: Style = style if style else master.style
+			super().__init__(master, text=text, command=command, variable=variable, value=value, bg=self.style.bg, fg=self.style.fg, font=self.style.font, selectcolor=self.style.bg, activebackground=self.style.bg, activeforeground=self.style.fg, **kw)
 
 		def get_(self):
 			return self['text']
@@ -58,8 +61,8 @@ class RadioButtonGroup(Frame, IMethods):
 		def set_(self, value) -> None:
 			self['text'] = value
 
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), **kw):
-		super().__init__(master, **kw)
+	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
+		super().__init__(master, style=style, **kw)
 		self._v = tkinter.Variable()
 		self._parse_method = parse_method
 		self._buttons: List[RadioButtonGroup.RadioButton] = []

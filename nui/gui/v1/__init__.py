@@ -139,9 +139,10 @@ class Stage(tkinter.Frame):
 
 
 class Scene(tkinter.Frame):
-	def __init__(self, stage: Stage, *args, **kwargs):
+	def __init__(self, stage: Stage, style: Style = None, *args, **kwargs):
 		self.stage: Stage = stage
-		super().__init__(stage, bg=self.stage.style.bg)
+		self.style: Style = style if style else self.stage.style
+		super().__init__(stage, bg=self.style.bg)
 
 	def tick(self) -> None:
 		"""
