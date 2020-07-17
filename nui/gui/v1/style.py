@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Tuple
 
 
@@ -6,6 +7,13 @@ class Style:
 		self.bg = bg if bg else None
 		self.fg = fg if fg else None
 		self.font = font if font else None
+
+	def child(self, bg: str = None, fg: str = None, font: Tuple[str, int] = None):
+		return Style(
+			bg=bg if bg else self.bg,
+			fg=fg if fg else self.fg,
+			font=font if font else deepcopy(self.font)
+		)
 
 	@staticmethod
 	def from_dict(in_: dict) -> 'Style':
