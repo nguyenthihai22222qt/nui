@@ -1,14 +1,14 @@
 from copy import deepcopy
-from typing import Tuple
+from typing import Tuple, Union
 
 
 class Style:
-	def __init__(self, /, *, bg: str = 'white', fg: str = 'black', font: Tuple[str, int] = None):
+	def __init__(self, /, *, bg: str = 'white', fg: str = 'black', font: Union[Tuple[str, int], Tuple[str, int, str]] = None):
 		self.bg = bg if bg else None
 		self.fg = fg if fg else None
 		self.font = font if font else None
 
-	def child(self, bg: str = None, fg: str = None, font: Tuple[str, int] = None):
+	def child(self, bg: str = None, fg: str = None, font: Union[Tuple[str, int], Tuple[str, int, str]] = None):
 		return Style(
 			bg=bg if bg else self.bg,
 			fg=fg if fg else self.fg,
