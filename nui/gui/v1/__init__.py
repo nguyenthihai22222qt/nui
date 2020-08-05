@@ -17,8 +17,8 @@ class Stage(tkinter.Frame):
 
 		self.master.bind('<Key>', self._typed)
 
-	def path(self, join: str = ''):
-		return path.join(self._path, join)
+	def path(self, *_join: str):
+		return path.join(self._path, *_join)
 
 	@staticmethod
 	def gen_path(__file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):

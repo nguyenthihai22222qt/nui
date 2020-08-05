@@ -1,4 +1,5 @@
-from nui.gui.v1 import CheckBoxButtonGroup, Style
+from . import CheckBoxButtonGroup
+from .. import Style
 
 
 class Toggle(CheckBoxButtonGroup.CheckBoxButton):
