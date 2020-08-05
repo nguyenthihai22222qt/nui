@@ -8,9 +8,10 @@ from .widgets import *
 
 
 class Stage(tkinter.Frame):
-	def __init__(self, style: Style, __file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+	def __init__(self, style: Style, __file___: str = __file__, whisper=None, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
 		super().__init__(tkinter.Tk(), bg=style.bg)
 		self.style = style
+		self.whisper = whisper
 		self._path = Stage.gen_path(__file___, non_frozen_path_join, frozen_path_join)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
@@ -65,7 +66,7 @@ class Stage(tkinter.Frame):
 		"""
 		self._active.typed(event)
 
-	def switch(self, to: Union[Type['Scene'], str]) -> None:
+	def switch(self, to: Union[Type['Scene'], str], whisper=None) -> None:
 		"""
 		Switches scenes. Any other way of switching scenes is discouraged.\n
 		1. Call active scene deactivate() method\n
@@ -73,11 +74,14 @@ class Stage(tkinter.Frame):
 		3. Call activate() on (new) active scene\n
 		(4. Focus active scene)\n
 		:param to: Scene switching to
+		:param whisper: Overrides Stage.whisper if not None
 		:return: None
 		"""
+		if whisper is not None:
+			self.whisper = whisper
 		self._active.deactivate()
 		self._active = to(self) if isclass(to) else self._scenes.get(to)
-		self._active.activate()
+		self._active.activate(self.whisper)
 		self._active.focus_set()
 
 	def tick(self) -> None:
@@ -163,7 +167,7 @@ class Scene(tkinter.Frame):
 		"""
 		pass
 
-	def activate(self) -> None:
+	def activate(self, whisper=None) -> None:
 		"""
 		This method is not meant to be called manually.
 		Fired every time this scene is activated/showed.
