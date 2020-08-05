@@ -8,28 +8,43 @@ from .widgets import *
 
 
 class Stage(tkinter.Frame):
-	def __init__(self, style: Style, __file___: str = __file__, whisper=None, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+	def __init__(self, style: Style, __file___: str, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+		"""
+		Class for managing scenes.\n
+
+		:param style: Style()
+		:param __file___: __file__
+		:param non_frozen_path_join: join to self.path() if not frozen (runned as python script)
+		:param frozen_path_join: join to self.path() if frozen (runned as exe bunded by PyInstaller)
+		"""
 		super().__init__(tkinter.Tk(), bg=style.bg)
 		self.style = style
-		self.whisper = whisper
 		self._path = Stage.gen_path(__file___, non_frozen_path_join, frozen_path_join)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
 
 		self.master.bind('<Key>', self._typed)
 
-	def path(self, *_join: str):
+	def path(self, *_join: str) -> str:
+		"""
+		Returns path to main/exe file.\n
+
+		:param _join: Same as os.path.join()
+		:return: path to main/exe file
+		"""
 		return path.join(self._path, *_join)
 
 	@staticmethod
-	def gen_path(__file___: str = __file__, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+	def gen_path(__file___: str, non_frozen_path_join: str = '..', frozen_path_join: str = '') -> str:
 		"""
-		Used when project path is needed before Stage is created.
-		After you have access to Stage object use path() method.
+		Used when project path is needed before Stage is created.\n
+		After you have access to Stage object use path() method.\n
+		Returns path to main/exe file.\n
+
 		:param __file___: Pass __file__
 		:param non_frozen_path_join: join to path if not frozen (runned as python script)
 		:param frozen_path_join: join to path if frozen (runned as exe bunded by PyInstaller)
-		:return:
+		:return: path to main/exe file
 		"""
 		if getattr(sys, 'frozen', False):
 			tmp = path.join(path.dirname(sys.executable), frozen_path_join)
@@ -39,8 +54,8 @@ class Stage(tkinter.Frame):
 
 	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
 		"""
-		Add scene
-		Possible to chain (.add(...).add(...).add(...) you get_ it).
+		Add scene.\n
+
 		:param name: Name/Key of the scene. Automatically converted to lower case.
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)
@@ -50,7 +65,8 @@ class Stage(tkinter.Frame):
 
 	def __getitem__(self, name: str) -> 'Scene':
 		"""
-		Get specific scene. Any other way of getting scenes is discouraged
+		Get specific scene. Any other way of getting scenes is discouraged.\n
+
 		:param name: Name/Key of Scene. Automatically converted to lower case.
 		:return: Scene object
 		"""
@@ -58,9 +74,10 @@ class Stage(tkinter.Frame):
 
 	def _typed(self, event) -> None:
 		"""
-		This method is not meant to be called manually.
-		Fired every time user preses key while window focused.
-		And calls active scene typed(event) method
+		This method is not meant to be called manually.\n
+		Called every time user preses key while window focused.\n
+		And calls active scene typed(event) method.\n
+
 		:param event: tkinter bind <Ket> event
 		:return: None
 		"""
@@ -69,53 +86,46 @@ class Stage(tkinter.Frame):
 	def switch(self, to: Union[Type['Scene'], str], whisper=None) -> None:
 		"""
 		Switches scenes. Any other way of switching scenes is discouraged.\n
-		1. Call active scene deactivate() method\n
-		2. Replace active scene with new one (`to` param)\n
-		3. Call activate() on (new) active scene\n
-		(4. Focus active scene)\n
+		1. Call active scene deactivate() method.\n
+		2. Replace active scene with new one (`to` param).\n
+		3. Call activate() on (new) active scene.\n
+		(4. Focus active scene).\n
+
 		:param to: Scene switching to
 		:param whisper: Overrides Stage.whisper if not None
 		:return: None
 		"""
-		if whisper is not None:
-			self.whisper = whisper
 		self._active.deactivate()
 		self._active = to(self) if isclass(to) else self._scenes.get(to)
-		self._active.activate(self.whisper)
+		self._active.activate(whisper)
 		self._active.focus_set()
 
 	def tick(self) -> None:
 		"""
-		This method is not meant to be called manually.
-		Fired every 10 ticks (Number could change).
-		:return:
+		This method is not meant to be called manually.\n
+		Called every 10 ticks.\n
+
+		:return: None
 		"""
 		self._active.tick()
 		self.after(10, self.tick)
 
-	def run(self, /, scene: Union[Type['Scene'], str], *, pack: bool = True, enable_tick: bool = True) -> None:
+	def run(self, /, scene: Union[Type['Scene'], str], whisper=None, *, pack: bool = True, enable_tick: bool = True) -> None:
 		"""
 		Call this to show window and run mainloop. Any other way of running mainloop is discouraged.\n
+
+		:param scene: Scene to show after start
+		:param whisper: whisper to scene
 		:param pack: Pack stage
 		:param enable_tick: Do you not want to use tick() methods? Set this to False (could save some process power idk)
-		:param scene: Scene to show after start
 		:return: None
 		"""
 		if pack:
 			self.pack(fill='both', expand=True)
-		self.switch(scene)
+		self.switch(scene, whisper)
 		if enable_tick:
 			self.master.after(1, self.tick)
 		self.master.mainloop()
-
-	def call(self, method: Callable) -> 'Stage':
-		"""
-		Call methods on stage. Good if you want to have Stage constructor and run() on one line
-		:param method: Stage is parsed as param
-		:return: Stage (self)
-		"""
-		method(self)
-		return self
 
 	def popup(self, title: str, message: str, options: List[str]):
 		root = tkinter.Toplevel()
@@ -150,18 +160,20 @@ class Scene(tkinter.Frame):
 
 	def tick(self) -> None:
 		"""
-		Overwrite me
-		This method is not meant to be called manually.
-		Fired every 10 ticks (Number could change).
+		Overwrite me.\n
+		This method is not meant to be called manually.\n
+		Called every 10 ticks.\n
+
 		:return: None
 		"""
 		pass
 
 	def typed(self, event) -> None:
 		"""
-		Overwrite me
-		This method is not meant to be called manually.
-		Fired every time user preses key while window focused.
+		Overwrite me.\n
+		This method is not meant to be called manually.\n
+		Called every time user preses key while window focused.\n
+
 		:param event: tkinter bind <Ket> event
 		:return: None
 		"""
@@ -169,18 +181,22 @@ class Scene(tkinter.Frame):
 
 	def activate(self, whisper=None) -> None:
 		"""
-		This method is not meant to be called manually.
-		Fired every time this scene is activated/showed.
-		This method should pack scene (self.pack()).
+		Overwrite me.\n
+		This method is not meant to be called manually.\n
+		Called every time this scene is activated/showed.\n
+		This method should pack scene (self.pack()).\n
+
 		:return: None
 		"""
 		self.pack(fill='both', expand=True)
 
 	def deactivate(self) -> None:
 		"""
-		This method is not meant to be called manually.
-		Fired when stage is switching to another scene (from this one).
-		This method should unpack whole scene. (self.pack_forget())
+		Overwrite me.\n
+		This method is not meant to be called manually.\n
+		Called when stage is switching to another scene (from this one).\n
+		This method should unpack whole scene. (self.pack_forget()).\n
+
 		:return: None
 		"""
 		self.pack_forget()
