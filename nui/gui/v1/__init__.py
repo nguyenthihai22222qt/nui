@@ -56,7 +56,7 @@ class Stage(tkinter.Frame):
 		"""
 		Add scene.\n
 
-		:param name: Name/Key of the scene. Automatically converted to lower case.
+		:param name: Name/Key of the scene. Case insensitive.
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)
 		"""
@@ -86,17 +86,17 @@ class Stage(tkinter.Frame):
 	def switch(self, to: Union[Type['Scene'], str], whisper=None) -> None:
 		"""
 		Switches scenes. Any other way of switching scenes is discouraged.\n
-		1. Call active scene deactivate() method.\n
-		2. Replace active scene with new one (`to` param).\n
-		3. Call activate() on (new) active scene.\n
+		1. Calls active scene deactivate() method.\n
+		2. Replaces active scene with new one (`to` param).\n
+		3. Calls activate() on (new) active scene.\n
 		(4. Focus active scene).\n
 
-		:param to: Scene switching to
-		:param whisper: Overrides Stage.whisper if not None
+		:param to: Scene switching to. Case insensitive (if type str is given)
+		:param whisper: Hand over to `to` scene as whisper
 		:return: None
 		"""
 		self._active.deactivate()
-		self._active = to(self) if isclass(to) else self._scenes.get(to)
+		self._active = to(self) if isclass(to) else self._scenes.get(to.lower())
 		self._active.activate(whisper)
 		self._active.focus_set()
 
