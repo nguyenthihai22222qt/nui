@@ -1,5 +1,4 @@
 import sys
-from inspect import isclass
 from os import path
 from typing import Union
 
@@ -83,7 +82,7 @@ class Stage(tkinter.Frame):
 		"""
 		self._active.typed(event)
 
-	def switch(self, to: Union[Type['Scene'], str], whisper=None) -> None:
+	def switch(self, to: str, whisper=None) -> None:
 		"""
 		Switches scenes. Any other way of switching scenes is discouraged.\n
 		1. Calls active scene deactivate() method.\n
@@ -95,8 +94,11 @@ class Stage(tkinter.Frame):
 		:param whisper: Hand over to `to` scene as whisper
 		:return: None
 		"""
+		s = self._scenes.get(to.lower())
+		if s is None:
+			raise Exception(f"No Scene named: '{to}'")
 		self._active.deactivate()
-		self._active = to(self) if isclass(to) else self._scenes.get(to.lower())
+		self._active = s
 		self._active.activate(whisper)
 		self._active.focus_set()
 
