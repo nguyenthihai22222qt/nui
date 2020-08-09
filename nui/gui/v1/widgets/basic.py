@@ -98,7 +98,7 @@ class Listbox(tkinter.Listbox, IMethods):
 		return self
 
 	def select_activated(self):  # Selected by <Return>
-		if self['selectmode'] == 'single':
+		if self['selectmode'] == Listbox.SINGLE:
 			self.selection_clear(0, 'end')
 		i = self.index('active')
 		if self.selection_includes(i):
