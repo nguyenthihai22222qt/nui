@@ -60,18 +60,22 @@ class Text(tkinter.Text, IMethods):
 
 
 class Listbox(tkinter.Listbox, IMethods):
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), min_width: int = 1, height: int = 10, auto_width: bool = True, highlightthickness: int = 0, style: Style = None, **kw):
+	SINGLE = 'single'
+	MULTIPLE = 'multiple'
+	BROWSE = 'browse'
+	EXTENDED = 'extended'
+
+	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, style: Style = None, **kw):
 		self.stage = master.stage
 		self.style: Style = style if style else master.style
-		super().__init__(master, width=min_width, height=height, selectmode='single', highlightthickness=highlightthickness, bg=self.style.bg, fg=self.style.fg, font=self.style.font, **kw)
+		super().__init__(master, width=min_width, height=height, selectmode=selectmode, highlightthickness=highlightthickness, bg=self.style.bg, fg=self.style.fg, font=self.style.font, **kw)
 		self._parse_method = parse_method
 		self.min_width = min_width
 		self.auto_width = auto_width
 		self._values = []
 
 	def get_(self):
-		s = self.selected()
-		return s if s else self.activated()
+		return [self._values[i] for i in self.curselection()]
 
 	def set_(self, value: List) -> None:
 		self.delete(0, 'end')
@@ -86,17 +90,19 @@ class Listbox(tkinter.Listbox, IMethods):
 
 	def inline_select_bind(self, callback: Callable[[Any], None]) -> 'Listbox':
 		def bind_event(v):
-			if v:
-				callback(v)
+			# 	if v: # 52 Random empty select
+			callback(v)
 
-		self.bind("<Return>", lambda _: bind_event(self.activated()))
-		self.bind("<<ListboxSelect>>", lambda _: bind_event(self.selected()))
+		self.bind("<Return>", lambda _: bind_event(self.select_activated()))
+		self.bind("<<ListboxSelect>>", lambda _: bind_event(self.get_()))
 		return self
 
-	def selected(self):  # Selected by mouse
-		# self.focus_set() # TODO Idk why this is here. Delete me if everything works
-		if self.curselection() != ():
-			return self._values[self.curselection()[0]]
-
-	def activated(self):  # Selected by <Return>
-		return self._values[self.index('active')]
+	def select_activated(self):  # Selected by <Return>
+		if self['selectmode'] == 'single':
+			self.selection_clear(0, 'end')
+		i = self.index('active')
+		if self.selection_includes(i):
+			self.selection_clear(i)
+		else:
+			self.selection_set(i)
+		return self.get_()
