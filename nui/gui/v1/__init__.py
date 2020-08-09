@@ -1,4 +1,5 @@
 import sys
+from logging import Logger
 from os import path
 from typing import Union
 
@@ -7,16 +8,19 @@ from .widgets import *
 
 
 class Stage(tkinter.Frame):
-	def __init__(self, style: Style, __file___: str, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
+	def __init__(self, style: Style, __file___: str, logger: Logger = None, non_frozen_path_join: str = '..', frozen_path_join: str = ''):
 		"""
 		Class for managing scenes.\n
 
 		:param style: Style()
 		:param __file___: __file__
+		:param logger: Used for logging tkinter exceptions
 		:param non_frozen_path_join: join to self.path() if not frozen (runned as python script)
 		:param frozen_path_join: join to self.path() if frozen (runned as exe bunded by PyInstaller)
 		"""
 		super().__init__(tkinter.Tk(), bg=style.bg)
+		if logger:
+			self.master.report_callback_exception = lambda exc, val, tb: logger.exception('tkinter')
 		self.style = style
 		self._path = Stage.gen_path(__file___, non_frozen_path_join, frozen_path_join)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
