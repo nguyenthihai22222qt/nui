@@ -85,12 +85,16 @@ class Listbox(tkinter.Listbox, IMethods):
 		self.config(width=int(width * 0.9))
 
 	def inline_select_bind(self, callback: Callable[[Any], None]) -> 'Listbox':
-		self.bind("<Return>", lambda _: callback(self.activated()))
-		self.bind("<<ListboxSelect>>", lambda _: callback(self.selected()))
+		def bind_event(v):
+			if v:
+				callback(v)
+
+		self.bind("<Return>", lambda _: bind_event(self.activated()))
+		self.bind("<<ListboxSelect>>", lambda _: bind_event(self.selected()))
 		return self
 
 	def selected(self):  # Selected by mouse
-		self.focus_set()
+		# self.focus_set() # TODO Idk why this is here. Delete me if everything works
 		if self.curselection() != ():
 			return self._values[self.curselection()[0]]
 
