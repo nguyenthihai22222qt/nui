@@ -3,6 +3,13 @@ from typing import Callable
 
 
 class IMethods(tkinter.Widget):
+	def is_active(self) -> bool:
+		"""
+		Whenever master is active.
+		:return: Scene.is_active()
+		"""
+		return self.master.is_active()
+
 	def inline_pack(self, /, *, fill='both', side='top', expand=False, **kw) -> 'super()':
 		"""
 		Packs it's self and returns self.\n
@@ -23,7 +30,7 @@ class IMethods(tkinter.Widget):
 		:param add: An additional boolean parameter ADD specifies whether FUNC will be called additionally to the other bound function or whether it will replace the previous function.
 		:return: Bind will return an identifier to allow deletion of the bound function with unbind without memory leak. If FUNC or SEQUENCE is omitted the bound function or list of bound events are returned.
 		"""
-		self.bind(sequence=sequence, func=func, add=add)
+		self.bind(sequence=sequence, func=lambda w: func(w) if self.is_active() else None, add=add)
 		return self
 
 	def get_(self):

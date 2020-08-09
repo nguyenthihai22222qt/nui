@@ -55,6 +55,9 @@ class Stage(tkinter.Frame):
 			tmp = path.join(path.dirname(__file___), non_frozen_path_join)
 		return path.realpath(tmp)
 
+	def is_active(self, scene: 'Scene') -> bool:
+		return self._active is scene
+
 	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
 		"""
 		Add scene.\n
@@ -163,6 +166,9 @@ class Scene(tkinter.Frame):
 		self.stage: Stage = stage
 		self.style: Style = style if style else self.stage.style
 		super().__init__(stage, bg=self.style.bg)
+
+	def is_active(self) -> bool:
+		return self.stage.is_active(self)
 
 	def tick(self) -> None:
 		"""
