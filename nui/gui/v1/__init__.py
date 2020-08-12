@@ -162,7 +162,7 @@ class Stage(tkinter.Frame):
 
 
 class Scene(tkinter.Frame):
-	def __init__(self, stage: Stage, style: Style = None, *args, **kwargs):
+	def __init__(self, stage: Stage, style: Style = None):
 		self.stage: Stage = stage
 		self.style: Style = style if style else self.stage.style
 		super().__init__(stage, bg=self.style.bg)
