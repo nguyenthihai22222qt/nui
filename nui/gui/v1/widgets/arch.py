@@ -37,3 +37,12 @@ class Frame(tkinter.Frame, IMethods):
 		o = widget(self, **widget_kw)
 		o.pack(**pack_kw)  # tkinter doesn't have inline_pack()
 		return o
+
+
+class PopUp(tkinter.Frame, IMethods):
+	def __init__(self, master, stage, close, style: Style = None, whisper=None, **kw):
+		self.stage = stage
+		self.close = close
+		self.style: Style = style if style else stage.style
+		self.whisper = whisper
+		super().__init__(master, bg=self.style.bg, **kw)

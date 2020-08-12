@@ -8,7 +8,9 @@ class IMethods(tkinter.Widget):
 		Whenever master is active.
 		:return: Scene.is_active()
 		"""
-		return self.master.is_active()
+		if isinstance(self.master, IMethods):
+			return self.master.is_active()
+		return True  # Used in popup
 
 	def inline_pack(self, /, *, fill='both', side='top', anchor='c', expand=False, **kw) -> 'super()':
 		"""

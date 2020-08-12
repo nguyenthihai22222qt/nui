@@ -136,8 +136,9 @@ class Stage(tkinter.Frame):
 			self.master.after(1, self.tick)
 		self.master.mainloop()
 
-	def popup(self, title: str, message: str, options: List[str]):
+	def basic_popup(self, title: str, message: str, options: List[str]) -> str:  # TODO Make this as PopUp subclass
 		root = tkinter.Toplevel()
+		root.wm_minsize(200, 0)
 		root.resizable(False, False)
 		root.title(title)
 		tkinter.Label(root, text=message, bg=self.style.bg, fg=self.style.fg).pack(fill='both')
@@ -159,6 +160,22 @@ class Stage(tkinter.Frame):
 		root.mainloop()
 		root.grab_release()
 		return out.get()
+
+	def frame_popup(self, popup: Type[PopUp], title: str = '', callback: Callable[[Any], None] = None, whisper=None):
+		def on_closing():
+			root.destroy()
+			root.quit()
+
+		root = tkinter.Toplevel()
+		root.wm_minsize(200, 0)
+		root.resizable(False, False)
+		root.title(title)
+		p = popup(root, stage=self, close=on_closing, whisper=whisper).inline_pack()
+		root.protocol("WM_DELETE_WINDOW", on_closing)
+		root.grab_set()
+		root.mainloop()
+		root.grab_release()
+		callback(p.whisper)
 
 
 class Scene(tkinter.Frame):

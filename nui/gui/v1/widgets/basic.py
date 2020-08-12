@@ -19,7 +19,7 @@ class Label(tkinter.Label, IMethods):
 
 
 class Button(tkinter.Button, IMethods):
-	def __init__(self, master, command: Callable[[], None], text: str = '', style: Style = None, **kw):
+	def __init__(self, master, command: Callable[[], Any], text: str = '', style: Style = None, **kw):
 		self.stage = master.stage
 		self.style: Style = style if style else master.style
 		super().__init__(master, text=text, bg=self.style.bg, fg=self.style.fg, font=self.style.font, command=command, **kw)
