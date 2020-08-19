@@ -97,11 +97,11 @@ class Listbox(tkinter.Listbox, IMethods):
 			# 	if v: # 52 Random empty select
 			callback(v)
 
-		self.inline_bind("<Return>", lambda _: bind_event(self.select_activated()))
+		self.inline_bind("<Return>", lambda _: bind_event(self.__select_activated()))
 		self.inline_bind("<<ListboxSelect>>", lambda _: bind_event(self.get_()))
 		return self
 
-	def select_activated(self):  # Selected by <Return>
+	def __select_activated(self):  # Selected by <Return>
 		if self['selectmode'] == Listbox.SINGLE:
 			self.selection_clear(0, 'end')
 		i = self.index('active')
