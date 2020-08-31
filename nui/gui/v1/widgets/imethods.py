@@ -31,7 +31,7 @@ class IMethods(tkinter.Widget):
 		:param sequence: See official tkinter.Widget.bind() docs.
 		:param func: will be called if the event sequence occurs with an instance of Event as argument. If the return value of FUNC is "break" no further bound function is invoked.
 		:param add: An additional boolean parameter ADD specifies whether FUNC will be called additionally to the other bound function or whether it will replace the previous function.
-		:return: Bind will return an identifier to allow deletion of the bound function with unbind without memory leak. If FUNC or SEQUENCE is omitted the bound function or list of bound events are returned.
+		:return: self
 		"""
 		self.bind(sequence=sequence, func=lambda w: func(w) if self.is_active() else None, add=add)
 		return self
@@ -40,10 +40,10 @@ class IMethods(tkinter.Widget):
 		"""
 		Returns widget value.\n
 		"""
-		raise Exception(f"Get method of Widget f{self.__class__}")  # NOSONAR
+		raise Exception(f"Get method of Widget f{self.__class__}")
 
 	def set_(self, value) -> None:
 		"""
 		Sets widget value.\n
 		"""
-		raise Exception(f"Get method of Widget f{self.__class__}")  # NOSONAR
+		raise Exception(f"Get method of Widget f{self.__class__}")

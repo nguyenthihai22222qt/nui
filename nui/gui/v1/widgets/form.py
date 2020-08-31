@@ -7,10 +7,10 @@ from .imethods import IMethods
 
 class Form(Frame):
 	class _Field(Frame):
-		def __init__(self, master, label: str, widget: Type[IMethods], b_get: Callable = lambda: '', auto_write: Callable = lambda: None, validator: Callable[[str], bool] = None, empty_as='', **kw):
+		def __init__(self, master, label: str, widget: Type[IMethods], b_get: Callable = lambda: '', validator: Callable[[str], bool] = None, empty_as='', **kw):
 			super().__init__(master)
 			self.label = Label(self, text=label).inline_pack(side='left')
-			self.w = widget(self, **kw).inline_bind('<KeyRelease>', lambda _: auto_write()).inline_pack(expand=True)
+			self.w = widget(self, **kw).inline_pack(expand=True)
 			self.b_get = b_get
 			self.validator = validator
 			self.empty_as = empty_as
@@ -37,15 +37,6 @@ class Form(Frame):
 		self._fields: Dict[str, Form._Field] = {}
 		self.auto_write: Callable[[], None] = lambda: None
 
-	def set_auto_write(self, auto_write: Callable[[], None] = lambda: None) -> 'Form':
-		"""
-		Sets method for auto_write.
-		:param auto_write: Will be automatically binded to every field on '<KeyRelease>' event
-		:return: self
-		"""
-		self.auto_write = auto_write
-		return self
-
 	def add_field(self, name: Any, widget: Type[IMethods], label: str, bind_get: Callable[[], Any] = lambda: None, validator: Callable[[str], bool] = None, empty_as='', **kw) -> 'Form':
 		"""
 		Add field.\n
@@ -59,7 +50,7 @@ class Form(Frame):
 		:return: self
 		"""
 		# noinspection PyProtectedMember
-		self._fields[name] = Form._Field(self, label, widget, bind_get, self.auto_write, validator, empty_as, **kw).inline_pack(fill='x')
+		self._fields[name] = Form._Field(self, label, widget, bind_get, validator, empty_as, **kw).inline_pack(fill='x')
 		return self
 
 	def set_fields(self) -> 'Form':
