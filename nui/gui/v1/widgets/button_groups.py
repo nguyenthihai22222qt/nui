@@ -34,6 +34,7 @@ class CheckBoxButtonGroup(Frame, IMethods):
 
 	def set_(self, value: List) -> None:
 		[x.destroy() for x in self._buttons]
+		self._buttons = []
 		self._values = value
 		for v in value:
 			self._buttons.append(CheckBoxButtonGroup.CheckBoxButton(self, text=self._parse_method(v)).inline_pack())
@@ -71,7 +72,8 @@ class RadioButtonGroup(Frame, IMethods):
 		return self._v.get()
 
 	def set_(self, value: List) -> None:
-		[x.destroy() for x in self._buttons]  # TODO DO i clear this list anywhere?
+		[x.destroy() for x in self._buttons]
+		self._buttons = []
 		self._v = tkinter.Variable(value=value[0] if value else None)
 		for v in value:
 			self._buttons.append(RadioButtonGroup.RadioButton(self, variable=self._v, text=self._parse_method(v), value=v).inline_pack())
