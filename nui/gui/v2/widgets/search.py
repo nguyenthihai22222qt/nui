@@ -1,8 +1,8 @@
 import tkinter
 from typing import Callable, Any, List
 
-from .arch import Frame
-from .basic import Entry, Listbox
+from .arch import Frame, PopUp
+from .basic import Entry, Listbox, Button
 from .. import Style
 
 
@@ -38,3 +38,56 @@ class Search(Frame):
 			if tkinter.re.match(r'.*{}.*'.format(tkinter.re.escape(self.search.get_())), f, tkinter.re.IGNORECASE):
 				out.append(v)
 		self.listbox.set_(out)
+
+
+class SearchPopUp(PopUp):
+	def __init__(self, master, stage, close, style: Style = None, whisper=None, parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, **kw):
+		super().__init__(master, stage, close, style, whisper, **kw)
+		search = Search(self, parse_method, auto_width, min_width, height, selectmode, highlightthickness, style, **kw) \
+			.inline_select_bind(self.selected) \
+			.inline_pack()
+		if self.whisper:
+			search.set_(self.whisper)
+
+	def selected(self, value):
+		self.whisper = value
+		self.close()
+
+
+class SearchButton(Button):
+	def __init__(self, master, title: str = '', parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, popup_style: Style = None, style: Style = None, **kw):
+		super().__init__(master, self.__pop, '', style, **kw)
+		self.title = title
+
+		self.parse_method = parse_method
+		self.auto_width = auto_width
+		self.min_width = min_width
+		self.height = height
+		self.selectmode = selectmode
+		self.highlightthickness = highlightthickness
+		self.popup_style = popup_style
+
+		self.__values = []
+		self.__selected = None
+
+	def __pop(self):
+		self.stage.frame_popup(
+			SearchPopUp, self.title, self.select, self.__values, style=self.popup_style,
+			parse_method=self.parse_method, auto_width=self.auto_width, min_width=self.min_width, height=self.height, selectmode=self.selectmode, highlightthickness=self.highlightthickness
+		)
+
+	def select(self, value) -> 'SearchButton':
+		self.__selected = value
+		super().set_(self.__selected)
+		return self
+
+	def select_index(self, index: int) -> 'SearchButton':
+		self.__selected = self.__values[index]
+		super().set_(self.__selected)
+		return self
+
+	def get_(self):
+		return self.__selected
+
+	def set_(self, value) -> None:
+		self.__values = value

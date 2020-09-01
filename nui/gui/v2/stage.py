@@ -162,7 +162,7 @@ class Stage(tkinter.Frame):
 		root.grab_release()
 		return out.get()
 
-	def frame_popup(self, popup: Type[PopUp], title: str = '', callback: Callable[[Any], None] = None, whisper=None):
+	def frame_popup(self, popup: Type[PopUp], title: str = '', callback: Callable[[Any], None] = None, whisper=None, style: Style = None, **kw):
 		def on_closing():
 			root.destroy()
 			root.quit()
@@ -171,7 +171,7 @@ class Stage(tkinter.Frame):
 		root.wm_minsize(200, 0)
 		root.resizable(False, False)
 		root.title(title)
-		p = popup(root, stage=self, close=on_closing, whisper=whisper).inline_pack()
+		p = popup(root, stage=self, close=on_closing, style=style, whisper=whisper, **kw).inline_pack()
 		root.protocol("WM_DELETE_WINDOW", on_closing)
 		root.grab_set()
 		root.mainloop()
