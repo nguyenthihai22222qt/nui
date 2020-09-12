@@ -3,7 +3,7 @@ import sys
 import tkinter
 from logging import Logger
 from os import path
-from typing import Union, Dict, Type, List, Callable, Any
+from typing import Union, Dict, Type, List, Callable, Any, Iterable
 
 from .style import Style
 from .widgets import PopUp
@@ -62,6 +62,11 @@ class Stage(tkinter.Frame):
 		return self._active is scene
 
 	def args(self, **kwargs) -> 'Stage':
+		"""
+		Specifies kwargs which will be parsed to Scenes __init__.\n
+		:param kwargs: **kwargs
+		:return: Stage (self)
+		"""
 		self._kwargs = kwargs
 		return self
 
@@ -77,6 +82,19 @@ class Stage(tkinter.Frame):
 		for arg in inspect.getfullargspec(scene).args[2:]:
 			kw[arg] = self._kwargs.get(arg, None)
 		self._scenes[name.lower()] = scene(self, **kw)
+		return self
+
+	def add_all(self, scenes: Iterable) -> 'Stage':
+		"""
+		Add scenes from list.\n
+		Example: `Stage.add_all(globals().values())`\n
+
+		:param scenes: List of classes which inherits Scene (class not object) (everything else in list is ignored)
+		:return: Stage (self)
+		"""
+		for scene in scenes:
+			if inspect.isclass(scene) and issubclass(scene, Scene) and scene is not Scene:
+				self.add(scene.name, scene)
 		return self
 
 	def __getitem__(self, name: str) -> 'Scene':
@@ -189,6 +207,8 @@ class Stage(tkinter.Frame):
 
 
 class Scene(tkinter.Frame):
+	name: str = ''
+
 	def __init__(self, stage: Stage, style: Style = None):
 		self.stage: Stage = stage
 		self.style: Style = style if style else self.stage.style
