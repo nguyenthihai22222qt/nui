@@ -1,3 +1,4 @@
+import inspect
 import sys
 import tkinter
 from logging import Logger
@@ -26,6 +27,7 @@ class Stage(tkinter.Frame):
 		self._path = Stage.gen_path(__file___, non_frozen_path_join, frozen_path_join)
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
+		self._kwargs: dict = {}
 
 		self.master.bind('<Key>', self._typed)
 
@@ -59,7 +61,11 @@ class Stage(tkinter.Frame):
 	def is_active(self, scene: 'Scene') -> bool:
 		return self._active is scene
 
-	def add(self, name: str, scene: Type['Scene'], *args, **kwargs) -> 'Stage':
+	def args(self, **kwargs) -> 'Stage':
+		self._kwargs = kwargs
+		return self
+
+	def add(self, name: str, scene: Type['Scene']) -> 'Stage':
 		"""
 		Add scene.\n
 
@@ -67,7 +73,10 @@ class Stage(tkinter.Frame):
 		:param scene: Class which inherits Scene (class not object)
 		:return: Stage (self)
 		"""
-		self._scenes[name.lower()] = scene(self, *args, **kwargs)
+		kw = {}
+		for arg in inspect.getfullargspec(scene).args[2:]:
+			kw[arg] = self._kwargs.get(arg, None)
+		self._scenes[name.lower()] = scene(self, **kw)
 		return self
 
 	def __getitem__(self, name: str) -> 'Scene':
