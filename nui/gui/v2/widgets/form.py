@@ -24,8 +24,7 @@ class Form(Frame):
 			return self.empty_as
 
 		def set_(self, value) -> None:
-			v = self.b_get()
-			self.w.set_(v if v or v == 0 else value)
+			self.w.set_(value)
 
 	def __init__(self, master, **kw):
 		"""
@@ -59,7 +58,7 @@ class Form(Frame):
 		:return: self
 		"""
 		for f in self._fields.values():
-			f.set_('')
+			f.set_(f.b_get())
 		return self
 
 	def get_not_valid(self) -> List[str]:

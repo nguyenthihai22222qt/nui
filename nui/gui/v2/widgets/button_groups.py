@@ -23,29 +23,38 @@ class CheckBoxButtonGroup(Frame, IMethods):
 		def is_selected(self):
 			return self.v.get()
 
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
+	def __init__(self, master, values: List = None, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
 		super().__init__(master, style=style, **kw)
 		self._parse_method = parse_method
-		self._values = []
 		self._buttons: List[CheckBoxButtonGroup.CheckBoxButton] = []
+
+		self._values: List = values if values else []
+		self.set_values(self._values)
 
 	def get_(self):
 		return [self._values[i] for i, b in enumerate(self._buttons) if b.is_selected()]
 
-	def set_(self, value: List) -> None:
+	def set_(self, value) -> None:
+		if not value:
+			for b in self._buttons:
+				b.deselect()
+			return
+		if isinstance(value, List):
+			for v in value:
+				self._buttons[self._values.index(v)].select()
+		else:
+			self._buttons[self._values.index(value)].select()
+
+	def set_values(self, value: List) -> None:
 		[x.destroy() for x in self._buttons]
 		self._buttons = []
 		self._values = value
 		for v in value:
 			self._buttons.append(CheckBoxButtonGroup.CheckBoxButton(self, text=self._parse_method(v)).inline_pack())
 
-	def select(self, values: List[int]):
-		for v in values:
-			self._buttons[self._values.index(v)].select()
-
 	def inline_set_and_select(self, set_: List, select: List[int]) -> 'CheckBoxButton':
-		self.set_(set_)
-		self.select(select)
+		self.set_values(set_)
+		self.set_(select)
 		return self
 
 
@@ -62,26 +71,28 @@ class RadioButtonGroup(Frame, IMethods):
 		def set_(self, value) -> None:
 			self['text'] = value
 
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
+	def __init__(self, master, values: List = None, parse_method: Callable[[Any], str] = lambda v: repr(v), style: Style = None, **kw):
 		super().__init__(master, style=style, **kw)
 		self._v = tkinter.Variable()
 		self._parse_method = parse_method
 		self._buttons: List[RadioButtonGroup.RadioButton] = []
+		if values:
+			self.set_values(values)
 
 	def get_(self):
 		return self._v.get()
 
-	def set_(self, value: List) -> None:
+	def set_(self, value) -> None:
+		self._v.set(value)
+
+	def set_values(self, value: List) -> None:
 		[x.destroy() for x in self._buttons]
 		self._buttons = []
-		self._v = tkinter.Variable(value=value[0] if value else None)
+		self._v = tkinter.Variable(value=None)
 		for v in value:
 			self._buttons.append(RadioButtonGroup.RadioButton(self, variable=self._v, text=self._parse_method(v), value=v).inline_pack())
 
-	def select(self, value):
-		self._v.set(value)
-
 	def inline_set_and_select(self, set_: List, select) -> 'RadioButton':
-		self.set_(set_)
-		self.select(select)
+		self.set_values(set_)
+		self.set_(select)
 		return self

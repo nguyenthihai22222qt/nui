@@ -1,5 +1,5 @@
 import tkinter
-from typing import Callable, List, Any
+from typing import Callable, List, Any, Iterable
 
 from .imethods import IMethods
 from .. import Style
@@ -65,22 +65,33 @@ class Listbox(tkinter.Listbox, IMethods):
 	BROWSE = 'browse'
 	EXTENDED = 'extended'
 
-	def __init__(self, master, parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, style: Style = None, **kw):
+	def __init__(self, master, values: List = None, parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, style: Style = None, **kw):
 		self.stage = master.stage
 		self.style: Style = style if style else master.style
 		super().__init__(master, width=min_width, height=height, selectmode=selectmode, highlightthickness=highlightthickness, bg=self.style.bg, fg=self.style.fg, font=self.style.font, **kw)
 		self._parse_method = parse_method
 		self.min_width = min_width
 		self.auto_width = auto_width
-		self._values = []
+		self._values: List = values if values else []
+		self.set_values(self._values)
 
 	def get_(self):
 		return [self._values[i] for i in self.curselection()]
 
-	def set_(self, value: List) -> None:
+	def set_(self, value) -> None:
+		if value is None:
+			self.selection_clear(0, 'end')
+			return
+		if isinstance(value, List):
+			for v in value:
+				self.selection_set(self._values.index(v))
+		else:
+			self.selection_set(self._values.index(value))
+
+	def set_values(self, values: Iterable):
 		self.delete(0, 'end')
 		self._values = []
-		self.add(value)
+		self.add(values)
 
 	def add(self, value):
 		self._values += value

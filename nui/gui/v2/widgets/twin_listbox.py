@@ -17,13 +17,13 @@ class TwinListbox(Frame, IMethods):
 		self.b_to_right = Button(self, lambda: self.__switch(self.left, self.right), text=' > ').inline_pack(fill='both', expand=True)
 
 	# noinspection PyProtectedMember
-	def __switch(self, from_, to_):
+	def __switch(self, from_: Listbox, to_: Listbox):
 		v = from_.get_()
 		to_.add(v)
 		for x in v:
 			from_._values.remove(x)  # FIXME Too slow
-		from_.set_(from_._values)
+		from_.set_values(from_._values)
 
 	def set_(self, value: Tuple[List, List]):
-		self.left.set_(value[0])
-		self.right.set_(value[1])
+		self.left.set_values(value[0])
+		self.right.set_values(value[1])
