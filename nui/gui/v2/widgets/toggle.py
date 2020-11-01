@@ -11,4 +11,4 @@ class Toggle(CheckBoxButtonGroup.CheckBoxButton):
 		return self.v.get() == 1
 
 	def set_(self, value: bool) -> None:
-		self.v.set(value)
+		self.v.set(bool(value))

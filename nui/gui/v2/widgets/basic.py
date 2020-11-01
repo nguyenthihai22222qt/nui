@@ -42,7 +42,8 @@ class Entry(tkinter.Entry, IMethods):
 
 	def set_(self, value):
 		self.delete(0, 'end')
-		self.insert('end', value)
+		if value:
+			self.insert('end', value)
 
 
 class Text(tkinter.Text, IMethods):
@@ -56,7 +57,8 @@ class Text(tkinter.Text, IMethods):
 
 	def set_(self, value):
 		self.delete(1.0, 'end')
-		self.insert('end', value)
+		if value:
+			self.insert('end', value)
 
 
 class Listbox(tkinter.Listbox, IMethods):

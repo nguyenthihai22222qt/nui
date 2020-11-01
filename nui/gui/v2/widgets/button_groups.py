@@ -35,7 +35,7 @@ class CheckBoxButtonGroup(Frame, IMethods):
 		return [self._values[i] for i, b in enumerate(self._buttons) if b.is_selected()]
 
 	def set_(self, value) -> None:
-		if not value:
+		if value is None:
 			for b in self._buttons:
 				b.deselect()
 			return
@@ -82,13 +82,13 @@ class RadioButtonGroup(Frame, IMethods):
 	def get_(self):
 		return self._v.get()
 
-	def set_(self, value) -> None:
+	def set_(self, value) -> None:  # FIXME Empty string activates all
 		self._v.set(value)
 
 	def set_values(self, value: List) -> None:
 		[x.destroy() for x in self._buttons]
 		self._buttons = []
-		self._v = tkinter.Variable(value=None)
+		self._v = tkinter.Variable()
 		for v in value:
 			self._buttons.append(RadioButtonGroup.RadioButton(self, variable=self._v, text=self._parse_method(v), value=v).inline_pack())
 

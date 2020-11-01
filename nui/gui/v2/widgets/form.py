@@ -7,21 +7,18 @@ from .imethods import IMethods
 
 class Form(Frame):
 	class _Field(Frame):
-		def __init__(self, master, label: str, widget: Type[IMethods], b_get: Callable = lambda: '', validator: Callable[[str], bool] = None, empty_as='', **kw):
+		def __init__(self, master, label: str, widget: Type[IMethods], b_get: Callable = lambda: '', validator: Callable[[str], bool] = None, **kw):
 			super().__init__(master)
 			self.label = Label(self, text=label).inline_pack(side='left')
 			self.w = widget(self, **kw).inline_pack(expand=True)
 			self.b_get = b_get
 			self.validator = validator
-			self.empty_as = empty_as
 
 		def is_valid(self) -> bool:
 			return not self.validator or self.validator(self.get_())
 
 		def get_(self) -> str:
-			if o := self.w.get_():
-				return o
-			return self.empty_as
+			return self.w.get_()
 
 		def set_(self, value) -> None:
 			self.w.set_(value)
@@ -34,7 +31,6 @@ class Form(Frame):
 		"""
 		super().__init__(master, **kw)
 		self._fields: Dict[str, Form._Field] = {}
-		self.auto_write: Callable[[], None] = lambda: None
 
 	def add_field(self, name: Any, widget: Type[IMethods], label: str, bind_get: Callable[[], Any] = lambda: None, validator: Callable[[str], bool] = None, empty_as='', **kw) -> 'Form':
 		"""
@@ -49,7 +45,7 @@ class Form(Frame):
 		:return: self
 		"""
 		# noinspection PyProtectedMember
-		self._fields[name] = Form._Field(self, label, widget, bind_get, validator, empty_as, **kw).inline_pack(fill='x')
+		self._fields[name] = Form._Field(self, label, widget, bind_get, validator, **kw).inline_pack(fill='x')
 		return self
 
 	def set_fields(self) -> 'Form':
