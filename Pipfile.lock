@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c85780093c5cf1ba815871d0db0426eb8d20e53e81a21dcfd90680e14618b58b"
+            "sha256": "6d6d9f3332a9ef9bae268779bf49335938763d939b77cd6a6efbd30cf87cc972"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3.9"
         },
         "sources": [
             {
@@ -18,7 +18,7 @@
     "default": {
         "nui": {
             "git": "https://github.com/TheNovi/Nui.git",
-            "ref": "878ba71ebac2382cebbdf3949ed083dc27d69430"
+            "ref": "76aa7032048e2a7a4fc829bb31bafb53c4358c91"
         }
     },
     "develop": {}
