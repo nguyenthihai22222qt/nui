@@ -60,6 +60,11 @@ class Form(Frame):
 	def get_not_valid(self) -> List[str]:
 		return [k for k, f in self._fields.items() if not f.is_valid()]
 
+	def get_first(self, key: Any):
+		value = self[key]
+		if len(value) > 0:
+			return value[0]
+
 	def __getitem__(self, item: Any):
 		"""
 		Returns value of _Field by name.\n

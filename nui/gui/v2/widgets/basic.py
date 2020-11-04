@@ -95,7 +95,7 @@ class Listbox(tkinter.Listbox, IMethods):
 		self._values = []
 		self.add(values)
 
-	def add(self, value):
+	def add(self, value: Iterable):
 		self._values += value
 		width = self.min_width
 		for v in value:

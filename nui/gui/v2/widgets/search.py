@@ -83,7 +83,7 @@ class SearchButton(Button):
 		return self
 
 	def get_(self):
-		return self.__selected
+		return self.__selected if isinstance(self.__selected, List) else [self.__selected]
 
 	def set_(self, value) -> None:
 		self.__selected = value
