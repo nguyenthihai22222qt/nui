@@ -59,3 +59,6 @@ class PopUp(tkinter.Frame, IMethods):
 		self.style: Style = style if style else stage.style
 		self.whisper = whisper
 		super().__init__(master, bg=self.style.bg, **kw)
+
+	def is_active(self) -> bool:
+		return True
