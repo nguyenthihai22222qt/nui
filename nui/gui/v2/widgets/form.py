@@ -62,7 +62,7 @@ class Form(Frame):
 
 	def get_first(self, key: Any):
 		value = self[key]
-		if len(value) > 0:
+		if isinstance(value, List) and len(value) > 0:
 			return value[0]
 
 	def __getitem__(self, item: Any):

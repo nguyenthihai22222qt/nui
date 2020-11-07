@@ -114,6 +114,12 @@ class Listbox(tkinter.Listbox, IMethods):
 		self.inline_bind("<<ListboxSelect>>", lambda _: bind_event(self.get_()))
 		return self
 
+	@staticmethod
+	def get_first(value):
+		if isinstance(value, List):
+			return value[0] if len(value) > 0 else None
+		return value
+
 	def __select_activated(self):  # Selected by <Return>
 		if self['selectmode'] == Listbox.SINGLE:
 			self.selection_clear(0, 'end')
