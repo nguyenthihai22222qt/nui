@@ -58,7 +58,7 @@ class SearchPopUp(PopUp):
 
 class SearchButton(Button):
 	def __init__(self, master, values: List = None, title: str = '', parse_method: Callable[[Any], str] = lambda v: repr(v), auto_width: bool = True, min_width: int = 1, height: int = 10, selectmode='single', highlightthickness: int = 0, popup_style: Style = None, style: Style = None, **kw):
-		super().__init__(master, self.pop, '', style, **kw)
+		super().__init__(master, self._pop, '', style, **kw)
 		self.title = title
 		self.parse_method = parse_method
 		self.auto_width = auto_width
