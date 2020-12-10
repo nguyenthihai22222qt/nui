@@ -89,3 +89,6 @@ class SearchButton(Button):
 		self.__selected = value
 		out = Listbox.get_first(self.__selected)
 		super().set_('' if out is None else self.parse_method(out))
+
+	def set_values(self, values: List):
+		self.__values: List = values
