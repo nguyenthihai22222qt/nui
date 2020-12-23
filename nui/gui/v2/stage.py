@@ -28,6 +28,7 @@ class Stage(tkinter.Frame):
 		self._active: Union['Scene', type] = type("TempScene", (), {'deactivate': lambda: None})
 		self._scenes: Dict[str, 'Scene'] = {}
 		self._kwargs: dict = {}
+		self.__popup_active: bool = False
 
 		self.master.bind('<Key>', self._typed)
 
@@ -59,7 +60,7 @@ class Stage(tkinter.Frame):
 		return path.realpath(tmp)
 
 	def is_active(self, scene: 'Scene') -> bool:
-		return self._active is scene
+		return self._active is scene and not self.__popup_active
 
 	def args(self, **kwargs) -> 'Stage':
 		"""
@@ -185,7 +186,9 @@ class Stage(tkinter.Frame):
 		[tkinter.Button(frame, command=lambda x=x: com(x), text=x, bg=self.style.bg, fg=self.style.fg).pack(fill='both', side='right') for x in options]
 		frame.pack(fill='both')
 		root.grab_set()
+		self.__popup_active = True
 		root.mainloop()
+		self.__popup_active = False
 		root.grab_release()
 		return out.get()
 
@@ -201,7 +204,9 @@ class Stage(tkinter.Frame):
 		p = popup(root, stage=self, close=on_closing, style=style, whisper=whisper, **kw).inline_pack()
 		root.protocol("WM_DELETE_WINDOW", on_closing)
 		root.grab_set()
+		self.__popup_active = True
 		root.mainloop()
+		self.__popup_active = False
 		root.grab_release()
 		callback(p.whisper)
 
