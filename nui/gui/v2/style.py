@@ -21,6 +21,9 @@ class Style:
 	def from_dict(in_: dict) -> 'Style':
 		return Style(**in_)
 
+	def __repr__(self):
+		return str(self.to_dict())
+
 	def to_dict(self) -> dict:
 		return {
 			'fg': self.fg,
