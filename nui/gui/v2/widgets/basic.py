@@ -103,7 +103,8 @@ class Listbox(tkinter.Listbox, IMethods):
 			self.insert('end', f)
 			if self.auto_width and len(f) > width:
 				width = len(f)
-		self.config(width=int(width * 0.9))
+		self.min_width = int(width * 0.9)
+		self.config(width=self.min_width)
 
 	def inline_select_bind(self, callback: Callable[[Any], None]) -> 'Listbox':
 		def bind_event(v):
@@ -113,12 +114,6 @@ class Listbox(tkinter.Listbox, IMethods):
 		self.inline_bind("<Return>", lambda _: bind_event(self.__select_activated()))
 		self.inline_bind("<<ListboxSelect>>", lambda _: bind_event(self.get_()))
 		return self
-
-	@staticmethod
-	def get_first(value):
-		if isinstance(value, List):
-			return value[0] if len(value) > 0 else None
-		return value
 
 	def __select_activated(self):  # Selected by <Return>
 		if self['selectmode'] == Listbox.SINGLE:
