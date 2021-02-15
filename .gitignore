@@ -6,6 +6,8 @@ out/
 nudes/
 ptests/
 build/
+dist/
+*.egg-info/
 .chika
 build.bat
 server.bat
