@@ -4,9 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+build = "*"
+twine = "*"
 
 [packages]
-nui = {git = "https://github.com/TheNovi/Nui.git"}
+
 
 [requires]
 python_version = "3.9"

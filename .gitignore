@@ -8,13 +8,13 @@ ptests/
 build/
 dist/
 *.egg-info/
+.pypirc
 .chika
 build.bat
 server.bat
 main.exe
 db.sqlite3
 ptest*
-*.egg-info
 *.spec
 *.iml
 *.dll
